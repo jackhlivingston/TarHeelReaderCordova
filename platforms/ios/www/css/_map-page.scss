@@ -1,0 +1,31 @@
+.map-page {
+    table, td, th {
+        border: 1px solid black;
+    }
+    table {
+        min-width: 19em;
+        margin: 1em auto;
+    }
+    caption {
+        font-weight: bold;
+    }
+    td, th {
+        padding: 0.25em 0.5em;
+    }
+    .languages td {
+        text-align: right;
+    }
+    .languages td:first-child {
+        text-align: left;
+    }
+    .readers td:first-child {
+        text-align: right;
+    }
+    th {
+        text-align: left;
+    }
+    .content-wrap img {
+        width: 48em !important;
+        height: 31.25em !important;
+    }
+}
