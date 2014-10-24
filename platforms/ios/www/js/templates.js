@@ -1,5 +1,5 @@
 define([ "state",
-         "requirejs.mustache",
+         "mustache",
          "json!../Templates.en.json"
          ],
         function(state, mustache, Templates) {
@@ -63,6 +63,9 @@ define([ "state",
                     p.ph = 100;
                     p.pw = Math.round(100*p.width/p.height);
                     p.pm = 0;
+                }
+                if (p.url.indexOf('http:') < 0) {
+                    p.url = state.host + p.url
                 }
             }
             function setTemplateLocale() {

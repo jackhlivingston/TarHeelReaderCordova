@@ -281,72 +281,72 @@
         }
 
         &.homeLink {
-          background: url(/theme/images/home_32.png) 0.75em center no-repeat;
+          background: url(images/home_32.png) 0.75em center no-repeat;
           &:focus {
-            background: url(/theme/images/home_32.png) 0.75em center no-repeat, #FFF;
+            background: url(images/home_32.png) 0.75em center no-repeat, #FFF;
           }
         }
 
         &.findLink {
-          background: url(/theme/images/find_book_icon.png) 0.75em center no-repeat;
+          background: url(images/find_book_icon.png) 0.75em center no-repeat;
           &:focus {
-            background: url(/theme/images/find_book_icon.png) 0.75em center no-repeat, #FFF;
+            background: url(images/find_book_icon.png) 0.75em center no-repeat, #FFF;
           }
         }
 
         &.collectionsLink {
-          background: url(/theme/images/collections.png) 0.75em center no-repeat;
+          background: url(images/collections.png) 0.75em center no-repeat;
           &:focus {
-            background: url(/theme/images/collections.png) 0.75em center no-repeat, #FFF;
+            background: url(images/collections.png) 0.75em center no-repeat, #FFF;
           }
         }
 
         &.favoritesLink {
-          background: url(/theme/images/favorite_book.png) 0.75em center no-repeat;
+          background: url(images/favorite_book.png) 0.75em center no-repeat;
           &:focus {
-            background: url(/theme/images/favorite_book.png) 0.75em center no-repeat, #FFF;
+            background: url(images/favorite_book.png) 0.75em center no-repeat, #FFF;
           }
         }
 
         &.writeLink {
-          background: url(/theme/images/write_book.png) 0.75em center no-repeat;
+          background: url(images/write_book.png) 0.75em center no-repeat;
           &:focus {
-            background: url(/theme/images/write_book.png) 0.75em center no-repeat, #FFF;
+            background: url(images/write_book.png) 0.75em center no-repeat, #FFF;
           }
         }
 
         &.loginLink {
-          background: url(/theme/images/user.png) 0.75em center no-repeat;
+          background: url(images/user.png) 0.75em center no-repeat;
           &:focus {
-            background: url(/theme/images/user.png) 0.75em center no-repeat, #FFF;
+            background: url(images/user.png) 0.75em center no-repeat, #FFF;
           }
         }
 
         &.helpLink {
-          background: url(/theme/images/info.png) 0.75em center no-repeat;
+          background: url(images/info.png) 0.75em center no-repeat;
           &:focus {
-            background: url(/theme/images/info.png) 0.75em center no-repeat, #FFF;
+            background: url(images/info.png) 0.75em center no-repeat, #FFF;
           }
         }
 
         &.yourBooksLink {
-          background: url(/theme/images/my_book.png) 0.75em center no-repeat;
+          background: url(images/my_book.png) 0.75em center no-repeat;
           &:focus {
-            background: url(/theme/images/my_book.png) 0.75em center no-repeat, #FFF;
+            background: url(images/my_book.png) 0.75em center no-repeat, #FFF;
           }
         }
 
         &.blogLink {
-          background: url(/theme/images/announcements_icon.png) 0.75em center no-repeat;
+          background: url(images/announcements_icon.png) 0.75em center no-repeat;
           &:focus {
-            background: url(/theme/images/announcements_icon.png) 0.75em center no-repeat, #FFF;
+            background: url(images/announcements_icon.png) 0.75em center no-repeat, #FFF;
           }
         }
 
         &.photoCreditsLink {
-          background: url(/theme/images/photo_credits_icon.png) 0.75em center no-repeat;
+          background: url(images/photo_credits_icon.png) 0.75em center no-repeat;
           &:focus {
-            background: url(/theme/images/photo_credits_icon.png) 0.75em center no-repeat, #FFF;
+            background: url(images/photo_credits_icon.png) 0.75em center no-repeat, #FFF;
           }
         }
 
@@ -386,19 +386,19 @@
         padding: 1em 0 1em 3.5em;
 
         &.speech {
-          background: url(/theme/images/sound.png) 1em center no-repeat;
+          background: url(images/sound.png) 1em center no-repeat;
         }
 
         &.colors {
-          background: url(/theme/images/colors.png) 1em center no-repeat;
+          background: url(images/colors.png) 1em center no-repeat;
         }
 
         &.download {
-          background: url(/theme/images/download.png) 1em center no-repeat;
+          background: url(images/download.png) 1em center no-repeat;
         }
 
         &.default {
-          background: url(/theme/images/default_settings.png) 1em center no-repeat;
+          background: url(images/default_settings.png) 1em center no-repeat;
         }
       } // end span
 
@@ -439,7 +439,7 @@
             font-size: 1.1em;
             text-align: center;
             &.checked {
-              background: url(/theme/images/check_mark.png) right center no-repeat;
+              background: url(images/check_mark.png) right center no-repeat;
             }
           }
 
@@ -465,7 +465,7 @@
               padding-right: 0.5em;
 
               &.checked {
-                background: url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/check_mark.png) right center no-repeat;
               }
             }
           } // end .innerSubmenu
@@ -474,66 +474,66 @@
         // Begin color icons for text color
         .textColors .innerSubmenu span {
             &.black {
-              background: url(/theme/images/Settings_colors/text_black.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/text_black.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/text_black.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/text_black.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
 
             &.blue {
-              background: url(/theme/images/Settings_colors/text_blue.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/text_blue.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/text_blue.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/text_blue.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
 
             &.cyan {
-              background: url(/theme/images/Settings_colors/text_cyan.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/text_cyan.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/text_cyan.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/text_cyan.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
 
             &.green {
-              background: url(/theme/images/Settings_colors/text_green.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/text_green.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/text_green.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/text_green.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
 
             &.magenta {
-              background: url(/theme/images/Settings_colors/text_magenta.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/text_magenta.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/text_magenta.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/text_magenta.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
 
             &.red {
-              background: url(/theme/images/Settings_colors/text_red.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/text_red.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/text_red.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/text_red.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
 
             &.white {
-              background: url(/theme/images/Settings_colors/text_white.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/text_white.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/text_white.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/text_white.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
 
             &.yellow {
-              background: url(/theme/images/Settings_colors/text_yellow.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/text_yellow.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/text_yellow.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/text_yellow.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
           } // End color icons for text color
@@ -541,66 +541,66 @@
           // Begin color icons for page color
           .pageColors .innerSubmenu span {
             &.black {
-              background: url(/theme/images/Settings_colors/page_black.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/page_black.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/page_black.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/page_black.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
 
             &.blue {
-              background: url(/theme/images/Settings_colors/page_blue.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/page_blue.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/page_blue.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/page_blue.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
 
             &.cyan {
-              background: url(/theme/images/Settings_colors/page_cyan.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/page_cyan.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/page_cyan.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/page_cyan.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
 
             &.green {
-              background: url(/theme/images/Settings_colors/page_green.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/page_green.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/page_green.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/page_green.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
 
             &.magenta {
-              background: url(/theme/images/Settings_colors/page_magenta.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/page_magenta.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/page_magenta.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/page_magenta.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
 
             &.red {
-              background: url(/theme/images/Settings_colors/page_red.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/page_red.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/page_red.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/page_red.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
 
             &.white {
-              background: url(/theme/images/Settings_colors/page_white.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/page_white.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/page_white.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/page_white.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
 
             &.yellow {
-              background: url(/theme/images/Settings_colors/page_yellow.png) 0.5em center no-repeat;
+              background: url(images/Settings_colors/page_yellow.png) 0.5em center no-repeat;
               &.checked {
-                background: url(/theme/images/Settings_colors/page_yellow.png) 0.5em center no-repeat,
-                            url(/theme/images/check_mark.png) right center no-repeat;
+                background: url(images/Settings_colors/page_yellow.png) 0.5em center no-repeat,
+                            url(images/check_mark.png) right center no-repeat;
                }
             }
           } // end color icons for page color

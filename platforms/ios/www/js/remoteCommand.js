@@ -3,7 +3,7 @@ define([], function(){
 
     function remoteCommand() {
         $.ajax({
-            url: "/theme/remoteCommand.php",
+            url: "remoteCommand.php",
             cache: false,
             timeout: 100000,
 

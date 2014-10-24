@@ -18,7 +18,7 @@ define(["route",
             $def.resolve(book);
         } else {
             $.ajax({
-                url: '/book-as-json/',
+                url: state.host + '/book-as-json/',
                 data: {
                     slug: slug
                 },
@@ -80,7 +80,7 @@ define(["route",
                 }
             } else {
                 if (pageNumber === N+1) {
-                    logEvent('read', 'complete', book.slug + ':' + book.ID);
+                    //logEvent('read', 'complete', book.slug + ':' + book.ID);
                 }
                 view.nextLink = pageLink(book.link, pageNumber+1);
                 view.link = book.link;

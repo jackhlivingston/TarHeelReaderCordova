@@ -3,19 +3,10 @@ define([  "route",
           "page",
           "state",
           "templates",
-          "ios",
-          "history.adapter.jquery"
+          "ios"
          ], function(route, page, state, templates, ios) {
 
-    var History = window.History,
-        document = window.document,
-        rootUrl = null;
-
-    if (!History.enabled) {
-        console.log('History not enabled');
-        state.set('classic', '1');  // switch them to classic mode so they have some hope of working
-        return false;
-    }
+    var document = window.document;
 
     // load a link or submit a form via Ajax so we don't leave the page
     function hijaxLink(event) {
@@ -25,13 +16,8 @@ define([  "route",
 
         if ($this.is('a')) {
             // click on a link
-            if ($this.attr('data-role') === 'back') {
-                //console.log('going back');
-                History.back();
-                event.preventDefault();
-                return false;
-            }
             url = $this.attr('href');
+            console.log('a', url);
             // allows me to mark URLs for local handling
             context.data_type = $this.attr('data-type');
             if (typeof(url) == 'undefined') {
@@ -52,7 +38,7 @@ define([  "route",
                 url = action + '?' + $this.serialize();
 
             } else {
-                //console.log('not hijaxing post');
+                console.log('not hijaxing post');
                 return true;
             }
         }
@@ -63,10 +49,8 @@ define([  "route",
             return true;
         }
        // Continue as normal for ctrl clicks or external links
-        if (event.which === 2 || event.metaKey || event.ctrlKey ||
-            ( url.substring(0,rootUrl.length) !== rootUrl && url.indexOf(':') !== -1 ) ||
-            url.indexOf('#') !== -1 ) {
-            //console.log('not hijaxing', url);
+        if (event.which === 2 || event.metaKey || event.ctrlKey) {
+            console.log('not hijaxing', url);
             return true;
         }
 
@@ -76,7 +60,7 @@ define([  "route",
         }
 
         // hijax this link, pass in the context so it can be handed on
-        History.pushState(context,'',url); // don't know the title here, fill it in later
+        stateChange(url, context);
 
         event.preventDefault();
         return false;
@@ -86,36 +70,16 @@ define([  "route",
         History.pushState(context, title, url);
     }
 
-    function stateChange() {
+    function stateChange(url, context) {
         // handle changes in the URL
-        var hist = History.getState(),
-            url = hist.url,
-            bar = window.location.href,
-            context = hist.data;
-
-        ios.setLastUrl(url);
-
-        //console.log("State changed...", url, context);
-        if (url != bar && bar.indexOf('#') > -1) {
-            //console.log('bar = ', bar);
-            // I think we only get here in IE8
-            // hack for hash mode urls
-            var hashIndex = bar.indexOf('#');
-            if (rootUrl != bar.slice(0, hashIndex)) {
-                // try to fix the url
-                url = rootUrl + bar.slice(hashIndex);
-                //console.log('new url =', url);
-                window.location.href = url;
-            }
-        }
+        console.log("State changed...", url, context);
         renderUrl(url, context).then(function(title) {
             document.title = title;
-            _gaq.push(['_trackPageview', url.replace(rootUrl, '/')]);
         });
     }
 
     function renderUrl(url, context) {
-        //console.log('renderUrl', url);
+        console.log('renderUrl', url);
         var $pageReady = $.Deferred();
 
         // update my app internal state from the cookie and any query parameters
@@ -132,7 +96,7 @@ define([  "route",
 
                 // request the page
                 $.ajax({
-                    url: url,
+                    url: state.host + url,
                     data: { ajax: 1 }, // signal this is a ajax request right in the URL
                     success: function(data, textStatus, jqXHR) {
                         //console.log('controller ajax gets data');
@@ -172,7 +136,6 @@ define([  "route",
     // wait for the document
     $(function() {
         var $body = $(document.body);
-        rootUrl = History.getRootUrl();
 
         $body.on('click', 'button.urlRetry', function(e) {
             //console.log('retry after error');

@@ -1,7 +1,4 @@
-define([ "history",
-         "history.html4",
-         "history.adapter.jquery"
-         ], function () {
+define([ ], function () {
 
     var rootUrl = null;
     var routeMaps = {};
@@ -16,13 +13,6 @@ define([ "history",
     function doRoute(map, url, context) {
         if (!(map in routeMaps)) return false;
 
-        if (!rootUrl) {
-            rootUrl = window.History.getRootUrl();
-            rootUrl = rootUrl.substring(0, rootUrl.length-1);
-        }
-        if (url.substring(0,rootUrl.length) === rootUrl) {
-            url = url.substring(rootUrl.length);
-        }
         var candidates = routeMaps[map];
         for(var i = 0; i < candidates.length; i++) {
             var match = candidates[i].re.exec(url);

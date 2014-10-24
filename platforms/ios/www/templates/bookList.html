@@ -18,22 +18,22 @@
                 <img src="{{icon}}" class="thr-stars" alt="{{text}}" title="{{text}}" />
                 {{/rating}}
                 {{#reviewed}}
-                <img src="/theme/images/reviewed_t.png" class="thr-reviewed"
+                <img src="images/reviewed_t.png" class="thr-reviewed"
                      alt="_(Reviewed for educational quality.|icon explanatory text)" title="_(Reviewed for educational quality.|icon explanatory text)" />
                 {{/reviewed}}
                 {{#caution}}
-                <img src="/theme/images/caution_t.png" class="thr-caution"
+                <img src="images/caution_t.png" class="thr-caution"
                      alt="_(May not be appropriate for all readers.|icon explanatory text)" title="_(May not be appropriate for all readers.|icon explanatory text)" />
                 {{/caution}}
                 {{#cover}}
                     <div class="thr-thumb-box">
-                        <img src="{{url}}" class="thr-thumb" style="width:{{pw}}%; height:{{ph}}%; padding-top: {{pm}}%" data-width="{{width}}" data-height="{{height}}" alt=" " />
+                        <img data-src="{{url}}" src="images/placeholder.gif" class="thr-thumb" style="width:{{pw}}%; height:{{ph}}%; padding-top: {{pm}}%" data-width="{{width}}" data-height="{{height}}" alt=" " />
                     </div>
                 {{/cover}}
                 <p class="thr-pages">{{pages}}</p>
             </a>
-            <img src="/theme/images/FavoriteYesOverlay.png" class="favoriteYes" alt=" "/>
-            <img src="/theme/images/FavoriteNoOverlay.png" class="favoriteNo" alt=" "/>
+            <img src="images/FavoriteYesOverlay.png" class="favoriteYes" alt=" "/>
+            <img src="images/FavoriteNoOverlay.png" class="favoriteNo" alt=" "/>
         </li>
         {{/books}}
     </ul>

@@ -14,7 +14,7 @@ define(["templates" ], function(templates) {
         // To make it work on the iOS I apparently have to load a legal mp3.
         // Use this one for now.
         if (typeof(Audio) !== 'undefined') {
-            audio = new Audio('/theme/speech/probe.mp3');
+            audio = new Audio('speech/probe.mp3');
 
             if (audio && audio.canPlayType &&
                 ("no" != audio.canPlayType("audio/mpeg")) &&

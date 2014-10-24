@@ -1,6 +1,15 @@
 /*
 generate the find page locally and enable switch selection of items
 */
+var loadImage = function(uri, callback) {
+      var xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+          xhr.onload = function() {
+                  callback(window.URL.createObjectURL(xhr.response), uri);
+                    }
+                      xhr.open('GET', uri, true);
+                        xhr.send();
+}
 
 define([ "route",
          "templates",
@@ -43,7 +52,7 @@ define([ "route",
 
         // fetch the json for the current set of books
         $.ajax({
-            url: url,
+            url: state.host + url,
             data: 'json=1',
             dataType: 'json',
             timeout: 30000,
@@ -51,6 +60,7 @@ define([ "route",
                 // setup the image width and height for the template
                 for(var i=0; i<data.books.length; i++) {
                     templates.setImageSizes(data.books[i].cover);
+                    data.books[i].rating.icon = data.books[i].rating.icon.replace('/theme/','');
                 }
                 view.bookList = templates.render('bookList', data);
                 var pageNumber = +state.get('page');
@@ -67,6 +77,15 @@ define([ "route",
                     .append('<div class="content-wrap">' +
                             templates.render('find', view) +
                             '</div>');
+                $newPage.find('img[src="images/placeholder.gif"]').each(function(i, e) {
+                    var $img = $(e);
+                    console.log(i, $img.attr('data-src'));
+
+                    loadImage($img.attr('data-src'), function(blobUri) {
+                        $img.attr('src', blobUri);
+                    });
+
+                });
                 $def.resolve($newPage, {title: 'Tar Heel Reader | Find', colors: true});
             }
         });

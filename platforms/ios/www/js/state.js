@@ -132,6 +132,7 @@ define([ "route", "json!../state.json", "jquery.cookie" ], function(route, rules
         removeFavorite: removeFavorite,
         isFavorite: isFavorite,
         favoritesArray: favoritesArray,
-        favoritesURL: favoritesURL
+        favoritesURL: favoritesURL,
+        host: 'http://gbserver3.cs.unc.edu'
     };
 });
