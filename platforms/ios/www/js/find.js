@@ -236,6 +236,7 @@ define([ "route",
 
         return {title: 'Find - Tar Heel Reader', colors: true};
     }
+    
     $(document).on('click', '.chooseFavorites img.favoriteNo, .chooseFavorites img.favoriteYes', function(ev) {
         //console.log('favorite click', ev);
         var $li = $(ev.target).parent('li'),
@@ -243,16 +244,13 @@ define([ "route",
         if ($li.hasClass('favoriteNo')) {
             $li.removeClass('favoriteNo').addClass('favoriteYes');
             state.addFavorite(id);
-            
-            dowloadBook(id);
+            state.downloadBook(id);
         } else if ($li.hasClass('favoriteYes')) {
             $li.removeClass('favoriteYes').addClass('favoriteNo');
             state.removeFavorite(id);
         }
     });
-    function downloadBook(id) {
-    	alert("ID: "+id);
-    }
+
     $(document).on('click',
         '.find-page .thr-favorites-icon, .favorites-page .thr-favorites-icon',
         function(ev) {
@@ -260,6 +258,9 @@ define([ "route",
             if (ios.cancelNav(ev)) {
                 // avoid ios double click bug
                 return false;
+            }
+            if($('.active-page').hasClass('chooseFavorites')){
+            	state.getDownload();
             }
             $('.active-page').toggleClass('chooseFavorites');
             ev.preventDefault();
