@@ -83,8 +83,10 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		// clear collection if favorites changes
 	}
 
+	var url;
 	function downloadBook(id) {
 		console.log("Step 1");
+		url = id;
 		window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, errorHandler);
 	}
@@ -95,9 +97,9 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		console.log("Step 2");
 		var fileTransfer = new FileTransfer();
 		console.log("Step 3");
-		var uri = encodeURI("http://tarheelreader.org/cache/images/50/3886224850_00fc0ffc2f.jpg");
+		var uri = encodeURI(url);
 		console.log("Step 4: encoded uri " + uri);
-		var fileURL = "cdvfile://localhost/persistent/file.jpg";
+		var fileURL = "cdvfile://localhost/persistent/img/file.jpg";
 
 		fileTransfer.download(uri, fileURL, function(entry) {
 			console.log("download complete: " + entry.fullPath);
@@ -140,29 +142,13 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	}
 
 	function getDownload() {
-		console.log("Download Step 1");
-		alert("get download");
-		/*file.file(function(e) {
-		 console.log("called the file func on the file ob");
-		 var reader = new FileReader();
-		 reader.onloadend = function(evt) {
-		 app.log('onloadend');
-		 app.log(evt.target.result);
-		 };
-		 reader.readAsText(e);
-
-		 });*/
-		new Ajax().sendRequest("cdvfile://localhost/persistent/file.jpg", {
-			method : "GET",
-			callback : function(xmlHTTP) {
-
-				var encoded = btoa(unescape(encodeURIComponent(xmlHTTP.responseText)));
-				var dataURL = "data:image/jpeg;base64," + encoded;
-
-				document.getElementById("image").src = dataURL;
-			}
-		});
-		//window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+		$('.content-wrap').append($('<img>', {
+			src : "cdvfile://localhost/persistent/img/file.jpg",
+			width : '200px',
+			height : '200px',
+			alt : "Test Image",
+			title : "Test Image"
+		}));
 	}
 
 	function removeFavorite(id) {

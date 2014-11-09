@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		07BF00F0C61C4F5B8DC8F754 /* CDVLocalFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9481181F00DF4171B323F45A /* CDVLocalFilesystem.m */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
@@ -43,6 +42,7 @@
 		C7C912AC639A4B058DAA8042 /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 412C03128D3F459CBA16A0AE /* CDVFile.m */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
 		FD699C27606142429B5BAD24 /* CDVFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = D0AA42C3EA3D438E9F9ECB8B /* CDVFileTransfer.m */; };
+		DB9CBD78EAC240348C77FFCA /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B619A225A84C4097766EC8 /* CDVStatusBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +115,8 @@
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		F7934922ED924F44BC1A4345 /* CDVFileTransfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVFileTransfer.h; path = "org.apache.cordova.file-transfer/CDVFileTransfer.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = TarHeelReaderApp/config.xml; sourceTree = "<group>"; };
+		A9B619A225A84C4097766EC8 /* CDVStatusBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVStatusBar.m"; path = "org.apache.cordova.statusbar/CDVStatusBar.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		34132CBE97F841178136E858 /* CDVStatusBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVStatusBar.h"; path = "org.apache.cordova.statusbar/CDVStatusBar.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,6 +245,8 @@
 				9D3FDD32B36F40ED871A5780 /* CDVAssetLibraryFilesystem.h */,
 				D0AA42C3EA3D438E9F9ECB8B /* CDVFileTransfer.m */,
 				F7934922ED924F44BC1A4345 /* CDVFileTransfer.h */,
+				A9B619A225A84C4097766EC8 /* CDVStatusBar.m */,
+				34132CBE97F841178136E858 /* CDVStatusBar.h */,
 			);
 			name = Plugins;
 			path = TarHeelReaderApp/Plugins;
@@ -446,6 +450,7 @@
 				07BF00F0C61C4F5B8DC8F754 /* CDVLocalFilesystem.m in Sources */,
 				B82AEA2B6F024D8C9F96258C /* CDVAssetLibraryFilesystem.m in Sources */,
 				FD699C27606142429B5BAD24 /* CDVFileTransfer.m in Sources */,
+				DB9CBD78EAC240348C77FFCA /* CDVStatusBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
