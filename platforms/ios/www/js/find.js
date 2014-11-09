@@ -243,11 +243,16 @@ define([ "route",
         if ($li.hasClass('favoriteNo')) {
             $li.removeClass('favoriteNo').addClass('favoriteYes');
             state.addFavorite(id);
+            
+            dowloadBook(id);
         } else if ($li.hasClass('favoriteYes')) {
             $li.removeClass('favoriteYes').addClass('favoriteNo');
             state.removeFavorite(id);
         }
     });
+    function downloadBook(id) {
+    	alert("ID: "+id);
+    }
     $(document).on('click',
         '.find-page .thr-favorites-icon, .favorites-page .thr-favorites-icon',
         function(ev) {
