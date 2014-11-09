@@ -83,35 +83,43 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		// clear collection if favorites changes
 	}
 
-	var url;
+	var ajaxPath;
+	var ajaxData;
+	var fileURL = "cdvfile://localhost/persistent/tarheelreaderapp";
 	function downloadBook(id) {
 		console.log("Step 1");
-		url = id;
-		window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, errorHandler);
+		$.get("https://tarheelreader.org/book-as-json/?slug=" + id, function(data) {
+			console.log(data);
+			ajaxData = data;
+			window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, errorHandler);
+		});
 	}
 
 	function onFileSystemSuccess(fileSystem) {
+		//NEED TO ADD FILEWRITER FOR DATA
+		
 		console.log(fileSystem.name);
 		console.log(fileSystem.root.name);
 		console.log("Step 2");
 		var fileTransfer = new FileTransfer();
 		console.log("Step 3");
-		var uri = encodeURI(url);
-		console.log("Step 4: encoded uri " + uri);
-		var fileURL = "cdvfile://localhost/persistent/img/file.jpg";
-
-		fileTransfer.download(uri, fileURL, function(entry) {
-			console.log("download complete: " + entry.fullPath);
-		}, function(error) {
-			console.log("download error source " + error.source);
-			console.log("download error target " + error.target);
-			console.log("upload error code" + error.code);
-		}, false, {
-			headers : {
-				"Authorization" : "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-			}
-		});
+		var pages = ajaxData.pages;
+		for (var i = 0; i < pages.length; i++) {
+			var uri = encodeURI("https://tarheelreader.org" + pages[i].url);
+			fileTransfer.download(uri, fileURL + pages[i].url, function(entry) {
+				console.log("download complete: " + entry.fullPath);
+			}, function(error) {
+				console.log("download error source " + error.source);
+				console.log("download error target " + error.target);
+				console.log("upload error code" + error.code);
+			}, false, {
+				headers : {
+					"Authorization" : "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+				}
+			});
+		}
+		console.log("Step 4");
 	}
 
 	function errorHandler(e) {
@@ -143,7 +151,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 
 	function getDownload() {
 		$('.content-wrap').append($('<img>', {
-			src : "cdvfile://localhost/persistent/img/file.jpg",
+			src : fileURL + "/img/file.jpg",
 			width : '200px',
 			height : '200px',
 			alt : "Test Image",
