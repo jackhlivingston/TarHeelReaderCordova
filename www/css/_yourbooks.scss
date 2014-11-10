@@ -1,0 +1,98 @@
+/*
+ * Styles for the "Books You Wrote" page
+ */
+.your-books-page {
+    h2 {
+      padding-top: 0.2em; // just for border alignment with the help icons
+    }
+
+    p {
+      margin-left: 1em;
+    }
+
+    .mapButton {
+      display: block;
+      margin: 0.5em;
+      width: 20em;
+    }
+    
+    .quickNavigation { 
+        ul {
+          @include thrBackground(top, bottom);
+          @include decoratedMenu;
+          
+          li {
+            height: auto;
+            overflow: hidden;
+            font-size: 1.3em;
+            line-height: 1.8em;
+            padding-left: 0.5em;
+            text-align: left;
+          }
+        }
+        display: none; // displayed if # of books published + # of draft books >= 20
+    }
+    
+    .controlList {
+        @include controlList; // include mixin
+        margin: 0.5em 0;
+        overflow: auto;
+        //height: auto;
+        
+        li {
+            margin-left: 0px;
+            overflow: hidden;
+            
+            span {
+                display: block;
+                width: 100%;
+            }
+            
+            div {
+                display: none;
+                button, input, textarea {
+                    display: block;
+                    -webkit-box-sizing: border-box;
+                    -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+                    margin-bottom: 1px;
+                    height: auto;
+                    width: 100%;
+                }
+                
+                input[type='text'], textarea {
+                  // mixin for a fancier input (see style.scss)
+                  @include decoratedInput(1px, #B2B2B2, 0.25em, 1px, 1.1em, 0.15em, 0.3em, #333, $carolinaBlue, rgba(135, 206, 250, 0.4), 0.5em, 0.25s, auto, 100%);
+                  margin-bottom: 0.2em;
+                }
+                
+                button, input[type='submit'] {
+                  // mixin for better looking buttons (see style.scss)
+                  @include decoratedButton(1px, #61A0B3, 0.5em, 0, $carolinaBlue, #286DA3, 1.25em, 0.25em, 1em, #EEE, #81BEF0, #FFF, 0, 100%);
+                  margin-bottom: 0.2em;
+                }
+                
+                p {
+                  border-bottom: 1px solid $carolinaBlue;
+                  margin-left: 0;
+                  font-size: 1.25em;
+                  padding-left: 0.25em;
+                }
+            }
+        } // end li
+
+        li.active {
+            -webkit-box-shadow: inset 0 0 0.1em 0.2em rgba(0, 0, 0, 0.5);
+            -moz-box-shadow: inset 0 0 0.1em 0.2em rgba(0, 0, 0, 0.5);
+            box-shadow: inset 0 0 0.1em 0.2em rgba(0, 0, 0, 0.5);
+            span {
+                display: none;
+            }
+            
+            div {
+              margin: 0.4em;
+              margin-bottom: 0.6em;
+            }
+        }
+    } // end .controlList
+}

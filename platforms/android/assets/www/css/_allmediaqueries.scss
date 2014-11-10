@@ -1,0 +1,271 @@
+/*
+ * All media queries (including automatically generated ones) are in this file
+ */
+
+/* include my automatically generated media queries */
+@import "mediaqueries";
+
+@media only screen and (max-width: 480px) {
+  body {
+    font-size: 9px;
+  }
+}
+
+// the minimum the font size can be is 8.5px (give .content-wrap some breathing room);
+@media only screen and (max-width: 324px) {
+  body {
+    font-size: 8.5px;
+  }
+}
+
+// Small width; let the threshold width be 624px for content-wrap width change
+@media only screen and (max-width: 624px) {
+  body {
+    .content-wrap {
+      width: 36em; // step down from 48em to 36em
+    }
+  }
+
+  // header adjustments for the heart and gear
+  .header {
+    margin-top: 0.25em;
+
+    h1 {
+       margin-top: 0.5em;
+       font-size: 2em !important;
+    }
+    .thr-well-icon {
+      top: 0.25em;
+    }
+
+    .thr-settings-icon {
+      top: 0.5em;
+      right: 1em;
+    }
+
+    .thr-favorites-icon {
+      top: 0.5em;
+      right: 4.5em;
+    }
+  } // ***End .header***
+
+  .thr-book-list li {
+     width: 10.85em; // adjust the width of the list items slightly, since there will only be 3 now
+  }
+
+  // ***Begin code for .home-page***
+  .home-page {
+    // make the quick links on the front page align on top of each other
+    .homeLinkList li {
+      width: 100%;
+      display: block;
+      margin: 0.5em auto;
+      font-size: 1.3em;
+      & > a {
+        display: inline-block;
+      }
+    }
+
+    .languageForm {
+      .languages, .goButton {
+        display: block;
+        width: 100%;
+      }
+
+      .languages {
+        font-size: 1.5em;
+        line-height: 2em;
+        margin: 0;
+      }
+
+      .goButton {
+        background-size: 1.5em;
+        margin: 0.5em auto;
+        height: 2.5em;
+      }
+    }
+  } // ***End code for .home-page***
+
+ // ***Begin code for .find-page***
+ .find-page {
+   .searchForm {
+     input {
+        font-size: 1.2em;
+        display: block;
+        width: 80%;
+        margin: 0 auto;
+        margin-bottom: 0.25em;
+        height: 3em !important;
+        vertical-align: middle;
+        &[type='search'] {
+          line-height: 2.5em;
+        }
+     }
+
+     select {
+       display: inline-block;
+       font-size: 1.2em;
+       margin-bottom: 0.35em;
+       width: auto;
+     }
+   }
+
+   .findPageNavButton {
+      height: 2em;
+      line-height: 2em;
+   }
+ } // **End code for .find-page***
+
+  // js enabled; hide searchForm and show button to show searchForm
+  .js {
+     .searchShowButton {
+       @include decoratedButton(0.1em, #DCDCDC, 0.5em, 0, #EDEDED, #DFDFDF, 1.5em, 0.25em, 0.5em, #585858, #EFEFEF, $carolinaBlue, 0, 80%);
+        display: block;
+        margin: 0.5em auto;
+        cursor: pointer;
+        line-height: 2em;
+        height: 2em;
+     }
+     .searchForm {
+         display: none;
+     }
+  }
+
+ // ***Begin code for .write-page***
+  .write-page {
+    .image-search {
+      overflow: auto;
+      input {
+        display: block;
+        padding: 0;
+        margin: 0.25em auto;
+        width: 100% !important;
+        font-size: 1.2em;
+        line-height: 1em;
+        height: 2em;
+
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+
+        &[type='search'] {
+          text-indent: 0.5em;
+        }
+      }
+    } // end image-search
+
+    .qq-upload-button {
+      display: block;
+      width: 10em;
+      text-align: center;
+      font-size: 1.3em;
+    }
+
+    .aWrap > a, div.step4 button {
+      display: inline-block;
+      padding: 0;
+      margin: 0.25em 0;
+      width: 100%;
+      font-size: 1.2em;
+      line-height: 1em;
+      height: 2em;
+    }
+
+    .steps {
+      h2 {
+        font-size: 1.3em;
+        padding-right: 2.5em; // acount for the question mark picture and word-wrap accordingly
+        word-wrap: break-word;
+      }
+
+      label {
+        display: block;
+        width: 100%;
+        margin: 0.5em 0;
+
+       span {
+         display: inline-block;
+         -webkit-box-sizing: border-box;
+         -moz-box-sizing: border-box;
+         box-sizing: border-box;
+         font-size: 1.2em;
+         width: 100%;
+         padding: 0.1em;
+        }
+
+        input, select, button {
+          display: block;
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          width: 0;
+          margin: 0;
+
+          width: 90% !important;
+          height: 2em;
+          font-size: 1.2em;
+          line-height: 1em;
+        }
+
+        select {
+          padding-top: 0.25em;
+        }
+      }
+    }
+  } // ***End code for .write-page****
+
+  // ***Begin .your-books-page***
+  .your-books-page {
+    .mapButton {
+      display: block;
+      padding: 0;
+      margin: 0.5em 0;
+      width: 100%;
+      font-size: 1.2em;
+      line-height: 2.5em;
+      height: 2.5em;
+    }
+
+    .controlList {
+      input, select, button {
+        height: 2.5em !important;
+        font-size: 1.2em;
+        line-height: 1em;
+        padding: 0;
+        margin: 0.25em 0;
+      }
+    }
+  } // ***End .your-books-page***
+
+  // ***Begin .collections-page***
+  .collections-page {
+    .collectionsSearchForm input {
+       display: block;
+       font-size: 1.2em;
+       width: 100%;
+       margin: 0.4em 0;
+       &[type='search'] {
+         padding: 0;
+         height: 2.5em;
+         line-height: 2em;
+         text-indent: 0.5em;
+       }
+
+       &[type='submit'] {
+         height: 2em;
+       }
+    }
+  } // ***End .collections-page***
+
+  @include largerControls;
+
+} // end media query for max-width: 624px
+
+/* Attempt to work around iOS7 full screen bug
+https://github.com/gbishop/TarHeelReaderTheme/issues/247
+I'm trying to catch only the iPad in landscape mode. I can't use orientation:landscape in
+the query because then in portrait mode when the keyboard appears it picks up the rule.
+*/
+@media only screen and (device-width: 768px) and (device-height: 1024px) and (min-aspect-ratio: 4/3) {
+    body { font-size: 20px; }
+}
