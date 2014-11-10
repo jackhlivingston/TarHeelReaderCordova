@@ -91,14 +91,49 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		$.get("https://tarheelreader.org/book-as-json/?slug=" + id, function(data) {
 			console.log(data);
 			ajaxData = data;
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 			window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
 			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, errorHandler);
 		});
 	}
 
+	function gotFS(fileSystem) {
+		//alert('gotFS');
+		fileSystem.root.getFile("tarheelreaderapp/json/"+ajaxData.ID+".json", {
+			create : true,
+			exclusive : false
+		}, gotFileEntry, fail);
+	}
+
+	function gotFileEntry(fileEntry) {
+		//alert('gotFileEntry');
+		fileEntry.createWriter(gotFileWriter, fail);
+	}
+
+	function gotFileWriter(writer) {
+		//alert('gotFileWriter');
+		writer.onwriteend = function(evt) {
+			console.log("contents of file now 'some sample text'");
+			writer.truncate(11);
+			writer.onwriteend = function(evt) {
+				console.log("contents of file now 'some sample'");
+				writer.seek(4);
+				writer.write(JSON.stringify(data));
+				writer.onwriteend = function(evt) {
+					console.log("contents of file now 'some different text'");
+				};
+			};
+		};
+		writer.write(JSON.stringify(data));
+	}
+
+	function fail(error) {
+		//alert('fail: ' + error.code);
+	}
+
 	function onFileSystemSuccess(fileSystem) {
 		//NEED TO ADD FILEWRITER FOR DATA
-		
+
 		console.log(fileSystem.name);
 		console.log(fileSystem.root.name);
 		console.log("Step 2");
