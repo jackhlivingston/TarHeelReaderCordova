@@ -18,6 +18,12 @@
                             "xml": "false",
                             "count": 1
                         }
+                    ],
+                    "SystemConfiguration.framework": [
+                        {
+                            "xml": "true",
+                            "count": 1
+                        }
                     ]
                 }
             },
@@ -43,6 +49,10 @@
                         {
                             "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"ios-package\" value=\"CDVConnection\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -57,6 +67,9 @@
             "PACKAGE_NAME": "edu.unc.cs.tarheelreaderapp"
         },
         "org.apache.cordova.statusbar": {
+            "PACKAGE_NAME": "edu.unc.cs.tarheelreaderapp"
+        },
+        "org.apache.cordova.network-information": {
             "PACKAGE_NAME": "edu.unc.cs.tarheelreaderapp"
         }
     },

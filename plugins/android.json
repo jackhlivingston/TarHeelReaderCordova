@@ -19,6 +19,10 @@
                         {
                             "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" onload=\"true\" value=\"org.apache.cordova.statusbar.StatusBar\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -29,6 +33,10 @@
                         {
                             "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
                             "count": 2
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "count": 1
                         }
                     ]
                 }
@@ -43,6 +51,9 @@
             "PACKAGE_NAME": "edu.unc.cs.tarheelreaderapp"
         },
         "org.apache.cordova.statusbar": {
+            "PACKAGE_NAME": "edu.unc.cs.tarheelreaderapp"
+        },
+        "org.apache.cordova.network-information": {
             "PACKAGE_NAME": "edu.unc.cs.tarheelreaderapp"
         }
     },
