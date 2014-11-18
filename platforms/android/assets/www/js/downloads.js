@@ -21,7 +21,7 @@ define([ "route",
          "jquery.scrollIntoView"
         ], function(route, templates, state, keys, speech, page, ios) {
 
-            console.log("in find.js");
+            console.log("in downloads.js");
 
     // return the url that will restore the find page state
     function find_url(page) {
@@ -45,6 +45,7 @@ define([ "route",
 
     // handle find locally
     function findRender(url, query) {
+        console.log("inside of find render");
         //console.log('findRender', url);
         var view = {},
             $def = $.Deferred();
@@ -52,76 +53,46 @@ define([ "route",
         state.set('findAnotherLink', find_url());
         view.searchForm = templates.searchForm(); // sets the selects based on the state
 
-
-        console.log("we at least made it into find render");
         // fetch the json for the current set of books
-        var online = false;
-        if (online){
-            console.log("rendiring online find");
-            $.ajax({
-                url: state.host + url,
-                data: 'json=1',
-                dataType: 'json',
-                timeout: 30000,
-                success: function(data, textStatus, jqXHR) {
-                    // setup the image width and height for the template
-                    for(var i=0; i<data.books.length; i++) {
-                        templates.setImageSizes(data.books[i].cover);
-                        data.books[i].rating.icon = data.books[i].rating.icon.replace('/theme/','');
-                    }
-                    view.bookList = templates.render('bookList', data);
-                    var pageNumber = +state.get('page');
-                    if (data.more) {
-                        view.nextLink = find_url(pageNumber + 1);
-                    }
-                    if (pageNumber > 1) {
-                        view.backLink = find_url(pageNumber - 1);
-                    }
-                    var $newPage = page.getInactive('find-page');
-                    $newPage.empty()
-                        .append(templates.render('heading',
-                            {settings:true, chooseFavorites:true}))
-                        .append('<div class="content-wrap">' +
-                                templates.render('find', view) +
-                                '</div>');
-                    $newPage.find('img[src="images/placeholder.gif"]').each(function(i, e) {
-                        var $img = $(e);
-                        console.log(i, $img.attr('data-src'));
-
-                        loadImage($img.attr('data-src'), function(blobUri) {
-                            $img.attr('src', blobUri);
-                        });
-
-                    });
-                    $def.resolve($newPage, {title: 'Tar Heel Reader | Find', colors: true});
+        $.ajax({
+            url: state.host + url,
+            data: 'json=1',
+            dataType: 'json',
+            timeout: 30000,
+            success: function(data, textStatus, jqXHR) {
+                // setup the image width and height for the template
+                for(var i=0; i<data.books.length; i++) {
+                    templates.setImageSizes(data.books[i].cover);
+                    data.books[i].rating.icon = data.books[i].rating.icon.replace('/theme/','');
                 }
-            });
-        }
-        else{
-            var data = {books: [], more: false};
-            for(var i=0; i<data.books.length; i++) {
-                templates.setImageSizes(data.books[i].cover);
-                data.books[i].rating.icon = data.books[i].rating.icon.replace('/theme/','');
+                view.bookList = templates.render('bookList', data);
+                var pageNumber = +state.get('page');
+                if (data.more) {
+                    view.nextLink = find_url(pageNumber + 1);
+                }
+                if (pageNumber > 1) {
+                    view.backLink = find_url(pageNumber - 1);
+                }
+                var $newPage = page.getInactive('find-page');
+                $newPage.empty()
+                    .append(templates.render('heading',
+                        {settings:true, chooseFavorites:true}))
+                    .append('<div class="content-wrap">' +
+                            templates.render('find', view) +
+                            '</div>');
+                $newPage.find('img[src="images/placeholder.gif"]').each(function(i, e) {
+                    var $img = $(e);
+                    console.log(i, $img.attr('data-src'));
+
+                    loadImage($img.attr('data-src'), function(blobUri) {
+                        $img.attr('src', blobUri);
+                    });
+
+                });
+                $def.resolve($newPage, {title: 'Tar Heel Reader | Find', colors: true});
             }
-            view.bookList = templates.render('bookList', data);
-            var pageNumber = +state.get('page');
-            if (data.more) {
-                view.nextLink = find_url(pageNumber + 1);
-            }
-            if (pageNumber > 1) {
-                view.backLink = find_url(pageNumber - 1);
-            }
-            var $newPage = page.getInactive('find-page');
-            $newPage.empty()
-                .append(templates.render('heading',
-                    {settings:true, chooseFavorites:true}))
-                .append('<div class="content-wrap">' +
-                        templates.render('find', view) +
-                        '</div>');
-                
-            console.log("finished render find");
-            $def.resolve($newPage, {title: 'Tar Heel Reader | Find', colors: true});
-        }
+        });
+        console.log("returning: ",$def," from renderDownloads");
         return $def;
     }
     function moveSelection(direction) {
@@ -312,8 +283,7 @@ define([ "route",
         return false;
     });
 
-    route.add('render', /^\/find\/(\?.*)?$/, findRender);
-    route.add('init', /^\/find\/(\?.*)?$/, findConfigure);
+    console.log("adding downloads to routes");
     route.add('render', /^\/downloads\/(\?.*)?$/, findRender);
     route.add('init', /^\/downloads\/(\?.*)?$/, findConfigure);
     route.add('init', /^\/favorites\/(\?.*)?$/, findConfigure);

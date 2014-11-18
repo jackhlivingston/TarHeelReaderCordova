@@ -102,12 +102,12 @@ msgctxt "label for button to expose search fields on small devices"
 msgid "Press to search"
 msgstr ""
 
-# find:10
+# find:10, downloads:4
 msgctxt "button label"
 msgid "Previous Books"
 msgstr ""
 
-# find:13
+# find:13, downloads:7
 msgctxt "button label"
 msgid "More Books"
 msgstr ""
@@ -439,10 +439,6 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-# navigation:20
-msgid "Favorites"
-msgstr ""
-
 # navigation:28
 msgid "Log in"
 msgstr ""
@@ -461,6 +457,10 @@ msgstr ""
 
 # navigation:44
 msgid "Photo credits"
+msgstr ""
+
+# navigation:48
+msgid "Downloads"
 msgstr ""
 
 # readingControls:1
@@ -1017,6 +1017,10 @@ msgstr ""
 
 # yourbooks:67
 msgid "Your collections are listed below. Click on the Favorites button to create a new collection. Click on a collection to expose a menu that will allow you to modify it."
+msgstr ""
+
+# yourbooks:71, navigation:20
+msgid "Favorites"
 msgstr ""
 
 # yourbooks:73
