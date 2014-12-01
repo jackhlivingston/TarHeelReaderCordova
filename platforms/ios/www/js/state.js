@@ -112,7 +112,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 
 	function gotFileWriter(writer) {
 		console.log('gotFileWriter');
-		writer.onwriteend = function(evt) {
+		/*writer.onwriteend = function(evt) {
 			console.log("contents of file now 'some sample text'");
 			writer.truncate(11);
 			writer.onwriteend = function(evt) {
@@ -123,7 +123,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 					console.log("contents of file now 'some different text'");
 				};
 			};
-		};
+		};*/
 		writer.write(JSON.stringify(ajaxData));
 	}
 
@@ -132,8 +132,6 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	}
 
 	function onFileSystemSuccess(fileSystem) {
-		//NEED TO ADD FILEWRITER FOR DATA
-
 		console.log(fileSystem.name);
 		console.log(fileSystem.root.name);
 		console.log("Step 2");
