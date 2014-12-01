@@ -1,9 +1,0 @@
-[
-    { "label": "Deutsch", "value":"de", "templates":"Templates.de.json" },
-    { "label": "English", "value":"en", "selected":true },
-    { "label": "Español", "value":"es", "templates":"Templates.es.json"},
-    { "label": "Français", "value":"fr", "templates":"Templates.fr.json"},
-    { "label": "Italiano", "value":"it", "templates":"Templates.it.json"},
-    { "label": "Türkçe", "value":"tr", "templates":"Templates.tr.json"},
-    { "label": "Português", "value":"pt", "templates":"Templates.pt.json"}
-]
