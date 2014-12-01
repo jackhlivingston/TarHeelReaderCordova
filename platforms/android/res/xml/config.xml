@@ -15,6 +15,9 @@
     <feature name="StatusBar">
         <param name="android-package" onload="true" value="org.apache.cordova.statusbar.StatusBar" />
     </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
     <name>TarHeelReaderApp</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -24,7 +27,4 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <feature name="NetworkStatus">
-        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
-    </feature>
 </widget>

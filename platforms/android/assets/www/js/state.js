@@ -99,7 +99,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 
 	function gotFS(fileSystem) {
 		console.log('gotFS');
-		fileSystem.root.getFile("tarheelreaderapp/json/"+ajaxData.ID+".json", {
+		fileSystem.root.getFile("tarheelreaderapp/json/" + ajaxData.ID + ".json", {
 			create : true,
 			exclusive : false
 		}, gotFileEntry, fail);
@@ -112,7 +112,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 
 	function gotFileWriter(writer) {
 		console.log('gotFileWriter');
-		writer.onwriteend = function(evt) {
+		/*writer.onwriteend = function(evt) {
 			console.log("contents of file now 'some sample text'");
 			writer.truncate(11);
 			writer.onwriteend = function(evt) {
@@ -123,7 +123,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 					console.log("contents of file now 'some different text'");
 				};
 			};
-		};
+		};*/
 		writer.write(JSON.stringify(ajaxData));
 	}
 
@@ -132,8 +132,6 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	}
 
 	function onFileSystemSuccess(fileSystem) {
-		//NEED TO ADD FILEWRITER FOR DATA
-
 		console.log(fileSystem.name);
 		console.log(fileSystem.root.name);
 		console.log("Step 2");
@@ -232,6 +230,19 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	}
 
 	stateUpdate(window.location.href);
+
+	var networkState = navigator.connection.type !== Connection.NONE;
+	set("connectivity", networkState);
+	function onOffline() {
+		set("connectivity", false);
+	}
+
+	function onOnline() {
+		set("connectivity", true);
+	}
+
+	document.addEventListener("offline", onOffline, false);
+	document.addEventListener("online", onOnline, false);
 
 	return {
 		get : function(key) {
