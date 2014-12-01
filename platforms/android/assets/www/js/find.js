@@ -55,7 +55,7 @@ define([ "route",
 
         console.log("we at least made it into find render");
         // fetch the json for the current set of books
-        var online = false;
+        var online = state.get("connectivity");
         if (online){
             console.log("rendiring online find");
             $.ajax({

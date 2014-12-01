@@ -99,7 +99,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 
 	function gotFS(fileSystem) {
 		console.log('gotFS');
-		fileSystem.root.getFile("tarheelreaderapp/json/"+ajaxData.ID+".json", {
+		fileSystem.root.getFile("tarheelreaderapp/json/" + ajaxData.ID + ".json", {
 			create : true,
 			exclusive : false
 		}, gotFileEntry, fail);
@@ -232,6 +232,19 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	}
 
 	stateUpdate(window.location.href);
+
+	var networkState = navigator.connection.type !== Connection.NONE;
+	set("connectivity", networkState);
+	function onOffline() {
+		set("connectivity", false);
+	}
+
+	function onOnline() {
+		set("connectivity", true);
+	}
+
+	document.addEventListener("offline", onOffline, false);
+	document.addEventListener("online", onOnline, false);
 
 	return {
 		get : function(key) {
