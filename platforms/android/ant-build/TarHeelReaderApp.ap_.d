@@ -193,6 +193,7 @@
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/images/Settings_colors/text_white.png \
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/plugins/org.apache.cordova.statusbar \
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/plugins/org.apache.cordova.file \
+/home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/plugins/org.apache.cordova.network-information \
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/plugins/org.apache.cordova.file-transfer \
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/plugins/org.apache.cordova.statusbar/www \
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/plugins/org.apache.cordova.statusbar/www/statusbar.js \
@@ -219,6 +220,9 @@
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/plugins/org.apache.cordova.file/www/fileSystems.js \
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/plugins/org.apache.cordova.file/www/FileReader.js \
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/plugins/org.apache.cordova.file/www/android/FileSystem.js \
+/home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/plugins/org.apache.cordova.network-information/www \
+/home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/plugins/org.apache.cordova.network-information/www/Connection.js \
+/home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/plugins/org.apache.cordova.network-information/www/network.js \
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/plugins/org.apache.cordova.file-transfer/www \
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/plugins/org.apache.cordova.file-transfer/www/FileTransferError.js \
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/assets/www/plugins/org.apache.cordova.file-transfer/www/FileTransfer.js \

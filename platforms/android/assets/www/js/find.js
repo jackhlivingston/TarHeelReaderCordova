@@ -98,7 +98,8 @@ define([ "route",
             });
         }
         else{
-            var data = {books: [], more: false};
+        	var data = {books: [], more: false};
+			//alert(JSON.stringify(data));
             for(var i=0; i<data.books.length; i++) {
                 templates.setImageSizes(data.books[i].cover);
                 data.books[i].rating.icon = data.books[i].rating.icon.replace('/theme/','');
@@ -118,12 +119,81 @@ define([ "route",
                 .append('<div class="content-wrap">' +
                         templates.render('find', view) +
                         '</div>');
-                
-            console.log("finished render find");
+           	
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+			function fail(){
+				console.log("there was an error getting books");
+			}
+		    function gotFS(fileSystem) {
+		        fileSystem.root.getDirectory("tarheelreaderapp/json", {create: true, exclusive: false}, gotDE, fail);
+		    }
+			function gotDE(dirEntry){
+				var directoryReader = dirEntry.createReader();
+				directoryReader.readEntries(gotEntries,fail);
+			}
+			function gotEntries(entries){
+				for (i=0; i<entries.length; i=i+1){
+					if (entries[i].file){
+						entries[i].file(readFile, fail);
+					}
+				}
+			}
+			function readFile(file){
+				var reader = new FileReader();
+		        reader.onloadend = function(evt) {
+		        	$newPage.find('.thr-book-list').append(
+			        	'<li class="selectable thr-colors" data-preview="change.this" data-id="change.this" lang="change.this" data-bust="change.this"">'+
+				           '<a href="change.this" data-type="book">'+
+				                '<h2>'+evt.target.result+'</h2>'+
+				                /*'<p class="thr-author"'+evt.target.result["author"]+'</p>'+
+				                evt.target.result["rating_value"]+
+				                '<p class="thr-pages">'+evt.target.result["pages"].length+'</p>'+*/
+				            '</a>'+
+				            /*'<img src="images/FavoriteYesOverlay.png" class="favoriteYes" alt=" "/>'+
+				            '<img src="images/FavoriteNoOverlay.png" class="favoriteNo" alt=" "/>'+*/
+				        '</li>'
+		        	);
+			    	data.books.push(evt.target.result);
+		        };
+		        reader.readAsText(file);
+			}
+           	
             $def.resolve($newPage, {title: 'Tar Heel Reader | Find', colors: true});
         }
         return $def;
     }
+    
+    function getCachedBooks(){
+    	var r = $.Deferred();
+    	var books = [];
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+		function fail(){
+			console.log("there was an error getting books");
+		}
+	    function gotFS(fileSystem) {
+	        fileSystem.root.getDirectory("tarheelreaderapp/json", {create: true, exclusive: false}, gotDE, fail);
+	    }
+		function gotDE(dirEntry){
+			var directoryReader = dirEntry.createReader();
+			directoryReader.readEntries(gotEntries,fail);
+		}
+		function gotEntries(entries){
+			for (i=0; i<entries.length; i=i+1){
+				if (entries[i].file){
+					entries[i].file(readFile, fail);
+				}
+			}
+		}
+		function readFile(file){
+			var reader = new FileReader();
+	        reader.onloadend = function(evt) {
+		    	books.push(evt.target.result);
+	        };
+	        reader.readAsText(file);
+		}
+		return books;
+    }
+    
     function moveSelection(direction) {
         // operate on the active page only
         var $page = $('.active-page');

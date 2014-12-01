@@ -47,6 +47,8 @@
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/ant-build/classes/org/apache/cordova/file/FileUtils$21.class \
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/ant-build/classes/org/apache/cordova/file/FileUtils$6.class \
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/ant-build/classes/org/apache/cordova/file/Filesystem$LimitedInputStream.class \
+/home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/ant-build/classes/org/apache/cordova/networkinformation/NetworkManager$1.class \
+/home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/ant-build/classes/org/apache/cordova/networkinformation/NetworkManager.class \
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/ant-build/classes/org/apache/cordova/statusbar/StatusBar.class \
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/ant-build/classes/org/apache/cordova/statusbar/StatusBar$1.class \
 /home/kerry/Documents/comp523/TarHeelReaderCordova/platforms/android/ant-build/classes/org/apache/cordova/statusbar/StatusBar$3.class \
