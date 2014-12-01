@@ -18,8 +18,9 @@ define([ "route",
          "speech",
          "page",
          "ios",
-         "jquery.scrollIntoView"
-        ], function(route, templates, state, keys, speech, page, ios) {
+         "jquery.scrollIntoView",
+         "connectionhandler"
+        ], function(route, templates, state, keys, speech, page, ios, connection) {
 
             console.log("in find.js");
 
