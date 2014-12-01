@@ -112,18 +112,6 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 
 	function gotFileWriter(writer) {
 		console.log('gotFileWriter');
-		/*writer.onwriteend = function(evt) {
-			console.log("contents of file now 'some sample text'");
-			writer.truncate(11);
-			writer.onwriteend = function(evt) {
-				console.log("contents of file now 'some sample'");
-				writer.seek(4);
-				writer.write(JSON.stringify(ajaxData));
-				writer.onwriteend = function(evt) {
-					console.log("contents of file now 'some different text'");
-				};
-			};
-		};*/
 		writer.write(JSON.stringify(ajaxData));
 	}
 
