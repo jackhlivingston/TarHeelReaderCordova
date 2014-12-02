@@ -5,7 +5,7 @@ define(["state"], function(state) {
 	
 	function get(request){
 		console.log("in connection handler getting url: ",request.url);
-        var online = false;//state.get("connectivity");
+        var online = state.get("connectivity");
 		if (online){
 			request.url = state.host + request.url;
 			$.ajax(request);

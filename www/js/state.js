@@ -89,7 +89,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	function downloadBook(id) {
 		console.log("Step 1");
 		$.get("https://tarheelreader.org/book-as-json/?slug=" + id, function(data) {
-			console.log(data);
+			console.log("Download: ",data);
 			ajaxData = data;
 			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 			window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
@@ -170,14 +170,34 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		alert('Error: ' + msg);
 	}
 
-	function getDownload() {
-		$('.content-wrap').append($('<img>', {
-			src : fileURL + "/img/file.jpg",
-			width : '200px',
-			height : '200px',
-			alt : "Test Image",
-			title : "Test Image"
-		}));
+	var dataID = null;
+	function deleteBook(id) {
+		console.log("Deleting Book: ",id);
+		dataID= id;
+		if(dataID!=null){
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSForDeletion, fail);
+		}
+	}
+
+	function gotFSForDeletion(fileSystem) {
+		console.log('gotFS');
+		fileSystem.root.getFile("tarheelreaderapp/json/" + dataID + ".json", {
+			create : true,
+			exclusive : false
+		}, gotFileEntryForDeletion, fail);
+	}
+
+	function gotFileEntryForDeletion(fileEntry) {
+		console.log('gotFileEntry');
+		fileEntry.remove(success, fail);
+	}
+
+	function success(entry) {
+		console.log("Removal succeeded");
+	}
+
+	function fail(error) {
+		alert('Error removing file: ' + error.code);
 	}
 
 	function removeFavorite(id) {
@@ -229,6 +249,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		set("connectivity", true);
 	}
 
+
 	document.addEventListener("offline", onOffline, false);
 	document.addEventListener("online", onOnline, false);
 
@@ -241,7 +262,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		dump : dump,
 		addFavorite : addFavorite,
 		downloadBook : downloadBook,
-		getDownload : getDownload,
+		deleteBook : deleteBook,
 		removeFavorite : removeFavorite,
 		isFavorite : isFavorite,
 		favoritesArray : favoritesArray,

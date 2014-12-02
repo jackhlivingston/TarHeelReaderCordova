@@ -250,12 +250,13 @@ define([ "route",
         if ($li.hasClass('favoriteNo')) {
             $li.removeClass('favoriteNo').addClass('favoriteYes');
             state.addFavorite(id);
-        	var raw = $li.find(":first").attr("href").split("/");
-        	var slug = raw[raw.length-2];
+        	var rawSlug = $li.find(":first").attr("href").split("/");
+        	var slug = rawSlug[rawSlug.length-2];
             state.downloadBook(slug);
         } else if ($li.hasClass('favoriteYes')) {
             $li.removeClass('favoriteYes').addClass('favoriteNo');
             state.removeFavorite(id);
+            state.deleteBook(id);
         }
     });
 
