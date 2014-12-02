@@ -6,10 +6,10 @@ var loadImage = function(uri, callback) {
         xhr.responseType = 'blob';
           xhr.onload = function() {
                   callback(window.URL.createObjectURL(xhr.response), uri);
-                    }
+                   };
                       xhr.open('GET', uri, true);
                         xhr.send();
-}
+};
 
 define([ "route",
          "templates",
@@ -18,8 +18,8 @@ define([ "route",
          "speech",
          "page",
          "ios",
+         "connectionhandler",
          "jquery.scrollIntoView",
-         "connectionhandler"
         ], function(route, templates, state, keys, speech, page, ios, connection) {
 
             console.log("in find.js");
@@ -56,143 +56,45 @@ define([ "route",
 
         console.log("we at least made it into find render");
         // fetch the json for the current set of books
-        var online = state.get("connectivity");
-        if (online){
-            console.log("rendiring online find");
-            $.ajax({
-                url: state.host + url,
-                data: 'json=1',
-                dataType: 'json',
-                timeout: 30000,
-                success: function(data, textStatus, jqXHR) {
-                    // setup the image width and height for the template
-                    for(var i=0; i<data.books.length; i++) {
-                        templates.setImageSizes(data.books[i].cover);
-                        data.books[i].rating.icon = data.books[i].rating.icon.replace('/theme/','');
-                    }
-                    view.bookList = templates.render('bookList', data);
-                    var pageNumber = +state.get('page');
-                    if (data.more) {
-                        view.nextLink = find_url(pageNumber + 1);
-                    }
-                    if (pageNumber > 1) {
-                        view.backLink = find_url(pageNumber - 1);
-                    }
-                    var $newPage = page.getInactive('find-page');
-                    $newPage.empty()
-                        .append(templates.render('heading',
-                            {settings:true, chooseFavorites:true}))
-                        .append('<div class="content-wrap">' +
-                                templates.render('find', view) +
-                                '</div>');
-                    $newPage.find('img[src="images/placeholder.gif"]').each(function(i, e) {
-                        var $img = $(e);
-                        console.log(i, $img.attr('data-src'));
-
-                        loadImage($img.attr('data-src'), function(blobUri) {
-                            $img.attr('src', blobUri);
-                        });
-
-                    });
-                    $def.resolve($newPage, {title: 'Tar Heel Reader | Find', colors: true});
+        connection.get({
+            url: url,
+            data: 'json=1',
+            dataType: 'json',
+            timeout: 30000,
+            success: function(data, textStatus, jqXHR) {
+                // setup the image width and height for the template
+                for(var i=0; i<data.books.length; i++) {
+                    templates.setImageSizes(data.books[i].cover);
+                    data.books[i].rating.icon = data.books[i].rating.icon.replace('/theme/','');
                 }
-            });
-        }
-        else{
-        	var data = {books: [], more: false};
-			//alert(JSON.stringify(data));
-            for(var i=0; i<data.books.length; i++) {
-                templates.setImageSizes(data.books[i].cover);
-                data.books[i].rating.icon = data.books[i].rating.icon.replace('/theme/','');
+                view.bookList = templates.render('bookList', data);
+                var pageNumber = +state.get('page');
+                if (data.more) {
+                    view.nextLink = find_url(pageNumber + 1);
+                }
+                if (pageNumber > 1) {
+                    view.backLink = find_url(pageNumber - 1);
+                }
+                var $newPage = page.getInactive('find-page');
+                $newPage.empty()
+                    .append(templates.render('heading',
+                        {settings:true, chooseFavorites:true}))
+                    .append('<div class="content-wrap">' +
+                            templates.render('find', view) +
+                            '</div>');
+                $newPage.find('img[src="images/placeholder.gif"]').each(function(i, e) {
+                    var $img = $(e);
+                    console.log(i, $img.attr('data-src'));
+
+                    loadImage($img.attr('data-src'), function(blobUri) {
+                        $img.attr('src', blobUri);
+                    });
+
+                });
+                $def.resolve($newPage, {title: 'Tar Heel Reader | Find', colors: true});
             }
-            view.bookList = templates.render('bookList', data);
-            var pageNumber = +state.get('page');
-            if (data.more) {
-                view.nextLink = find_url(pageNumber + 1);
-            }
-            if (pageNumber > 1) {
-                view.backLink = find_url(pageNumber - 1);
-            }
-            var $newPage = page.getInactive('find-page');
-            $newPage.empty()
-                .append(templates.render('heading',
-                    {settings:true, chooseFavorites:true}))
-                .append('<div class="content-wrap">' +
-                        templates.render('find', view) +
-                        '</div>');
-           	
-			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
-			function fail(){
-				console.log("there was an error getting books");
-			}
-		    function gotFS(fileSystem) {
-		        fileSystem.root.getDirectory("tarheelreaderapp/json", {create: true, exclusive: false}, gotDE, fail);
-		    }
-			function gotDE(dirEntry){
-				var directoryReader = dirEntry.createReader();
-				directoryReader.readEntries(gotEntries,fail);
-			}
-			function gotEntries(entries){
-				for (i=0; i<entries.length; i=i+1){
-					if (entries[i].file){
-						entries[i].file(readFile, fail);
-					}
-				}
-			}
-			function readFile(file){
-				var reader = new FileReader();
-		        reader.onloadend = function(evt) {
-		        	$newPage.find('.thr-book-list').append(
-			        	'<li class="selectable thr-colors" data-preview="change.this" data-id="change.this" lang="change.this" data-bust="change.this"">'+
-				           '<a href="change.this" data-type="book">'+
-				                '<h2>'+evt.target.result+'</h2>'+
-				                /*'<p class="thr-author"'+evt.target.result["author"]+'</p>'+
-				                evt.target.result["rating_value"]+
-				                '<p class="thr-pages">'+evt.target.result["pages"].length+'</p>'+*/
-				            '</a>'+
-				            /*'<img src="images/FavoriteYesOverlay.png" class="favoriteYes" alt=" "/>'+
-				            '<img src="images/FavoriteNoOverlay.png" class="favoriteNo" alt=" "/>'+*/
-				        '</li>'
-		        	);
-			    	data.books.push(evt.target.result);
-		        };
-		        reader.readAsText(file);
-			}
-           	
-            $def.resolve($newPage, {title: 'Tar Heel Reader | Find', colors: true});
-        }
+        });
         return $def;
-    }
-    
-    function getCachedBooks(){
-    	var r = $.Deferred();
-    	var books = [];
-		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
-		function fail(){
-			console.log("there was an error getting books");
-		}
-	    function gotFS(fileSystem) {
-	        fileSystem.root.getDirectory("tarheelreaderapp/json", {create: true, exclusive: false}, gotDE, fail);
-	    }
-		function gotDE(dirEntry){
-			var directoryReader = dirEntry.createReader();
-			directoryReader.readEntries(gotEntries,fail);
-		}
-		function gotEntries(entries){
-			for (i=0; i<entries.length; i=i+1){
-				if (entries[i].file){
-					entries[i].file(readFile, fail);
-				}
-			}
-		}
-		function readFile(file){
-			var reader = new FileReader();
-	        reader.onloadend = function(evt) {
-		    	books.push(evt.target.result);
-	        };
-	        reader.readAsText(file);
-		}
-		return books;
     }
     
     function moveSelection(direction) {
