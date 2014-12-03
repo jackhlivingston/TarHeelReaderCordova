@@ -2,13 +2,13 @@
 generate the find page locally and enable switch selection of items
 */
 var loadImage = function(uri, callback) {
-      var xhr = new XMLHttpRequest();
-        xhr.responseType = 'blob';
-          xhr.onload = function() {
-                  callback(window.URL.createObjectURL(xhr.response), uri);
-                   };
-                      xhr.open('GET', uri, true);
-                        xhr.send();
+	  var xhr = new XMLHttpRequest();
+	  xhr.responseType = 'blob';
+	  xhr.onload = function() {
+		   callback(window.URL.createObjectURL(xhr.response), uri);
+	  };
+	  xhr.open('GET', uri, true);
+	  xhr.send();
 };
 
 define([ "route",
@@ -287,8 +287,6 @@ define([ "route",
 
     route.add('render', /^\/find\/(\?.*)?$/, findRender);
     route.add('init', /^\/find\/(\?.*)?$/, findConfigure);
-    route.add('render', /^\/downloads\/(\?.*)?$/, findRender);
-    route.add('init', /^\/downloads\/(\?.*)?$/, findConfigure);
     route.add('init', /^\/favorites\/(\?.*)?$/, findConfigure);
 
     // I don't really need to define anything but I need it to be called before main runs.

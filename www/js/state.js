@@ -171,13 +171,13 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	}
 
 	function getDownload() {
-		$('.content-wrap').append($('<img>', {
+		/*$('.content-wrap').append($('<img>', {
 			src : fileURL + "/img/file.jpg",
 			width : '200px',
 			height : '200px',
 			alt : "Test Image",
 			title : "Test Image"
-		}));
+		}));*/
 	}
 
 	function removeFavorite(id) {

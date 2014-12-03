@@ -102,12 +102,12 @@ msgctxt "label for button to expose search fields on small devices"
 msgid "Press to search"
 msgstr ""
 
-# find:10, downloads:4
+# find:10
 msgctxt "button label"
 msgid "Previous Books"
 msgstr ""
 
-# find:13, downloads:7
+# find:13
 msgctxt "button label"
 msgid "More Books"
 msgstr ""
@@ -457,10 +457,6 @@ msgstr ""
 
 # navigation:44
 msgid "Photo credits"
-msgstr ""
-
-# navigation:48
-msgid "Downloads"
 msgstr ""
 
 # readingControls:1
