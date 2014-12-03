@@ -89,102 +89,161 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	function downloadBook(id) {
 		console.log("Step 1");
 		$.get("https://tarheelreader.org/book-as-json/?slug=" + id, function(data) {
-			console.log("Download: ",data);
+			console.log("Download: ", data);
 			ajaxData = data;
-			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 			window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFileSystemSuccess, errorHandler);
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 		});
 	}
 
 	function gotFS(fileSystem) {
 		console.log('gotFS');
+		console.log("AjaxData ID: " + ajaxData.ID);
+		fileSystem.root.getDirectory("tarheelreaderapp", {
+			create : true,
+			exclusive : false
+		}, success, fail);
+		fileSystem.root.getDirectory("tarheelreaderapp/json", {
+			create : true,
+			exclusive : false
+		}, success, fail);
 		fileSystem.root.getFile("tarheelreaderapp/json/" + ajaxData.ID + ".json", {
 			create : true,
 			exclusive : false
-		}, gotFileEntry, fail);
+		}, gotFileEntryJSON, fail);
+		var pages = ajaxData.pages;
+
+		for (var i = 0; i < pages.length; i++) {
+			var jsonFile = pages[i].url.split(".")[0] + ".json";
+			var fileTransfer = new FileTransfer();
+			urlArray = jsonFile.split("/");
+
+			console.log(i + ": JSON File: " + jsonFile + ".  URL: " + urlArray);
+			var newDirectory = "";
+			for ( j = 1; j < urlArray.length - 1; j++) {
+				newDirectory += "/";
+				newDirectory += urlArray[j];
+				console.log(j + ": New Directory = " + newDirectory);
+				fileSystem.root.getDirectory("tarheelreaderapp" + newDirectory, {
+					create : true,
+					exclusive : false
+				}, success, fail);
+			}
+			fileSystem.root.getFile("tarheelreaderapp" + jsonFile, {
+				create : true,
+				exclusive : false
+			}, gotFileEntryImages, fail);
+			(function(i) {
+				$.get(fileURL + jsonFile, function(data) {
+					if (data.count <= 1) {
+						var uri = encodeURI("https://tarheelreader.org" + pages[i].url);
+						fileTransfer.download(uri, fileURL + pages[i].url, function(entry) {
+							console.log("download complete: " + entry.fullPath);
+						}, function(error) {
+							console.log("download error source " + error.source);
+							console.log("download error target " + error.target);
+							console.log("upload error code" + error.code);
+						}, false, {
+							headers : {
+								"Authorization" : "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+							}
+						});
+					}
+				});
+			})(i);
+		}
 	}
 
-	function gotFileEntry(fileEntry) {
-		console.log('gotFileEntry');
-		fileEntry.createWriter(gotFileWriter, fail);
+	function gotFileEntryJSON(fileEntry) {
+		console.log('gotFileEntry for JSON');
+		fileEntry.createWriter(gotFileWriterJSON, fail);
 	}
 
-	function gotFileWriter(writer) {
-		console.log('gotFileWriter');
+	function gotFileEntryImages(fileEntry) {
+		fileEntry.createWriter(gotFileWriterImage, fail);
+	}
+
+	function fileRead(file) {
+		var $def = $.Deferred();
+		var reader = new FileReader();
+		reader.onloadend = function(evt) {
+			var result = evt.target.result;
+			$def.resolve(result);
+		};
+		reader.readAsText(file);
+		return $def;
+	}
+
+	function gotFileWriterJSON(writer) {
+		console.log('gotFileWriter JSON');
+		console.log('Step 2: writing to file');
 		writer.write(JSON.stringify(ajaxData));
+	}
+
+	function gotFileWriterImage(writer) {
+		$.get(writer.localURL, function(data) {
+			console.log("Writer Data: ", data);
+			var count;
+			if (data == null) {
+				count = 0;
+			} else {
+				count = data.count;
+			}
+			count++;
+			writer.write('{"count" : ' + count + '}');
+		});
+	}
+
+	function saveImage() {
+
 	}
 
 	function fail(error) {
 		console.log('fail: ' + error.code);
 	}
 
-	function onFileSystemSuccess(fileSystem) {
-		console.log(fileSystem.name);
-		console.log(fileSystem.root.name);
-		console.log("Step 2");
-		var fileTransfer = new FileTransfer();
-		console.log("Step 3");
-		var pages = ajaxData.pages;
-		for (var i = 0; i < pages.length; i++) {
-			var uri = encodeURI("https://tarheelreader.org" + pages[i].url);
-			fileTransfer.download(uri, fileURL + pages[i].url, function(entry) {
-				console.log("download complete: " + entry.fullPath);
-			}, function(error) {
-				console.log("download error source " + error.source);
-				console.log("download error target " + error.target);
-				console.log("upload error code" + error.code);
-			}, false, {
-				headers : {
-					"Authorization" : "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-				}
-			});
-		}
-		console.log("Step 4");
-	}
-
-	function errorHandler(e) {
-		var msg = '';
-
-		switch (e.code) {
-			case FileError.QUOTA_EXCEEDED_ERR:
-				msg = 'QUOTA_EXCEEDED_ERR';
-				break;
-			case FileError.NOT_FOUND_ERR:
-				msg = 'NOT_FOUND_ERR';
-				break;
-			case FileError.SECURITY_ERR:
-				msg = 'SECURITY_ERR';
-				break;
-			case FileError.INVALID_MODIFICATION_ERR:
-				msg = 'INVALID_MODIFICATION_ERR';
-				break;
-			case FileError.INVALID_STATE_ERR:
-				msg = 'INVALID_STATE_ERR';
-				break;
-			default:
-				msg = 'Unknown Error';
-				break;
-		};
-
-		alert('Error: ' + msg);
-	}
-
 	var dataID = null;
 	function deleteBook(id) {
-		console.log("Deleting Book: ",id);
-		dataID= id;
-		if(dataID!=null){
+		console.log("Deleting Book: ", id);
+		dataID = id;
+		if (dataID != null) {
 			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSForDeletion, fail);
 		}
 	}
 
 	function gotFSForDeletion(fileSystem) {
 		console.log('gotFS');
-		fileSystem.root.getFile("tarheelreaderapp/json/" + dataID + ".json", {
-			create : true,
-			exclusive : false
-		}, gotFileEntryForDeletion, fail);
+		var fileJSON = "/json/" + dataID + ".json";
+		console.log("File JSON: " + fileURL + fileJSON);
+		$.get(fileURL + fileJSON, function(data) {
+			console.log(data);
+			var pages = data.pages;
+			for (var i = 0; i < pages.length; i++) {
+				(function(i) {
+					var imagePath = pages[i].url.split(".")[0] + ".json";
+					$.get(fileURL + imagePath, function(data2) {
+						console.log("Inside Function: " + i + ": Data 2: " + data2.count);
+						if (data2.count <= 1) {
+							console.log("Deleting image:  tarheelreaderapp" + pages[i].url);
+							fileSystem.root.getFile("tarheelreaderapp" + pages[i].url, {
+								create : true,
+								exclusive : false
+							}, gotFileEntryForDeletion, fail);
+							console.log("Deleting image json:  tarheelreaderapp" + imagePath);
+							fileSystem.root.getFile("tarheelreaderapp" + imagePath, {
+								create : true,
+								exclusive : false
+							}, gotFileEntryForDeletion, fail);
+						} else {
+							fileSystem.root.getFile("tarheelreaderapp" + imagePath, {
+								create : true,
+								exclusive : false
+							}, gotFileEntryForDeletionImages, fail);
+						}
+					});
+				})(i);
+			}
+		});
 	}
 
 	function gotFileEntryForDeletion(fileEntry) {
@@ -192,12 +251,22 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		fileEntry.remove(success, fail);
 	}
 
-	function success(entry) {
-		console.log("Removal succeeded");
+	function gotFileEntryForDeletionImages(fileEntry) {
+		console.log('gotFileEntry for Deletion Images');
+		fileEntry.createWriter(gotFileWriterDeleteImage, fail);
 	}
 
-	function fail(error) {
-		alert('Error removing file: ' + error.code);
+	function gotFileWriterDeleteImage(writer) {
+		$.get(writer.localURL, function(data) {
+			console.log("Writer Data before delete: ", data);
+			var count = data.count;
+			count--;
+			writer.write('{"count" : ' + count + '}');
+		});
+	}
+
+	function success(entry) {
+		console.log("Success");
 	}
 
 	function removeFavorite(id) {
