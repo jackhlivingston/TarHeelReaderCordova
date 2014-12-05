@@ -107,7 +107,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 			create : true,
 			exclusive : false
 		}, success, fail);
-		fileSystem.root.getFile("tarheelreaderapp/json/" + ajaxData.ID + ".json", {
+		fileSystem.root.getFile("tarheelreaderapp/json/" + ajaxData.slug + ".json", {
 			create : true,
 			exclusive : false
 		}, gotFileEntryJSON, fail);
@@ -133,24 +133,24 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 				create : true,
 				exclusive : false
 			}, gotFileEntryImages, fail);
-			(function(i) {
-				$.get(fileURL + jsonFile, function(data) {
-					if (data.count <= 1) {
-						var uri = encodeURI("https://tarheelreader.org" + pages[i].url);
-						fileTransfer.download(uri, fileURL + pages[i].url, function(entry) {
-							console.log("download complete: " + entry.fullPath);
-						}, function(error) {
-							console.log("download error source " + error.source);
-							console.log("download error target " + error.target);
-							console.log("upload error code" + error.code);
-						}, false, {
-							headers : {
-								"Authorization" : "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-							}
-						});
-					}
-				});
-			})(i);
+			//(function(i) {
+			//$.get(fileURL + jsonFile, function(data) {
+			//if (data.count <= 1) {
+			var uri = encodeURI("https://tarheelreader.org" + pages[i].url);
+			fileTransfer.download(uri, fileURL + pages[i].url, function(entry) {
+				console.log("download complete: " + entry.fullPath);
+			}, function(error) {
+				console.log("download error source " + error.source);
+				console.log("download error target " + error.target);
+				console.log("upload error code" + error.code);
+			}, false, {
+				headers : {
+					"Authorization" : "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+				}
+			});
+			//}
+			//});
+			//})(i);
 		}
 	}
 
@@ -184,11 +184,12 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		$.get(writer.localURL, function(data) {
 			console.log("Writer Data: ", data);
 			var count;
-			if (data == null) {
+			if (data == null || data.count == null) {
 				count = 0;
 			} else {
 				count = data.count;
 			}
+			console.log(count);
 			count++;
 			writer.write('{"count" : ' + count + '}');
 		});
@@ -217,12 +218,14 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		console.log("File JSON: " + fileURL + fileJSON);
 		$.get(fileURL + fileJSON, function(data) {
 			console.log(data);
+			data = JSON.parse(data);
 			var pages = data.pages;
 			for (var i = 0; i < pages.length; i++) {
 				(function(i) {
 					var imagePath = pages[i].url.split(".")[0] + ".json";
 					$.get(fileURL + imagePath, function(data2) {
-						console.log("Inside Function: " + i + ": Data 2: " + data2.count);
+						data2 = JSON.parse(data2);
+						console.log("Inside Function: " + i + ": Data 2: " + data2);
 						if (data2.count <= 1) {
 							console.log("Deleting image:  tarheelreaderapp" + pages[i].url);
 							fileSystem.root.getFile("tarheelreaderapp" + pages[i].url, {
@@ -243,6 +246,10 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 					});
 				})(i);
 			}
+			fileSystem.root.getFile("tarheelreaderapp/json/" + dataID + ".json", {
+				create : true,
+				exclusive : false
+			}, gotFileEntryForDeletion, fail);
 		});
 	}
 
@@ -309,14 +316,17 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	stateUpdate(window.location.href);
 
 	var networkState = navigator.connection.type !== Connection.NONE;
-	set("connectivity", networkState);
+	//set("connectivity", networkState);
+	set("connectivity",false);
 	function onOffline() {
 		set("connectivity", false);
 	}
 
 	function onOnline() {
-		set("connectivity", true);
+		//set("connectivity", true);
+		set("connectivity",false);
 	}
+
 
 	document.addEventListener("offline", onOffline, false);
 	document.addEventListener("online", onOnline, false);
@@ -335,6 +345,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		isFavorite : isFavorite,
 		favoritesArray : favoritesArray,
 		favoritesURL : favoritesURL,
-		host : 'http://gbserver3.cs.unc.edu'
+		host : 'http://tarheelreader.org',
+		fileURL : fileURL,
 	};
 });

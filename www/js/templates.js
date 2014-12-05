@@ -65,7 +65,7 @@ define([ "state",
                     p.pm = 0;
                 }
                 if (p.url.indexOf('http:') < 0) {
-                    p.url = state.host + p.url
+                    p.url = state.host + p.url;
                 }
             }
             function setTemplateLocale() {

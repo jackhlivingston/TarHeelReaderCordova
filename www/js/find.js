@@ -1,16 +1,3 @@
-/*
-generate the find page locally and enable switch selection of items
-*/
-var loadImage = function(uri, callback) {
-	  var xhr = new XMLHttpRequest();
-	  xhr.responseType = 'blob';
-	  xhr.onload = function() {
-		   callback(window.URL.createObjectURL(xhr.response), uri);
-	  };
-	  xhr.open('GET', uri, true);
-	  xhr.send();
-};
-
 define([ "route",
          "templates",
          "state",
@@ -22,7 +9,26 @@ define([ "route",
          "jquery.scrollIntoView",
         ], function(route, templates, state, keys, speech, page, ios, connection) {
 
-            console.log("in find.js");
+	/*
+	generate the find page locally and enable switch selection of items
+	*/
+	
+	var loadImage = function(uri, callback) {
+	    var online = state.get("connectivity");
+	    console.log(online);
+		if (online){
+			var xhr = new XMLHttpRequest();
+			xhr.responseType = 'blob';
+			xhr.onload = function() {
+				callback(window.URL.createObjectURL(xhr.response), uri);
+			};
+			xhr.open('GET', uri, true);
+			xhr.send();
+		}
+		else{
+			callback(state.fileURL + uri.replace(state.host,""));
+		}
+	}; 
 
     // return the url that will restore the find page state
     function find_url(page) {
@@ -63,9 +69,10 @@ define([ "route",
             timeout: 30000,
             success: function(data, textStatus, jqXHR) {
                 // setup the image width and height for the template
+                console.log(JSON.stringify(data));
                 for(var i=0; i<data.books.length; i++) {
                     templates.setImageSizes(data.books[i].cover);
-                    data.books[i].rating.icon = data.books[i].rating.icon.replace('/theme/','');
+                    data.books[i].rating.icon = data.books[i].rating.icon.replace(/\/theme[^\/]*\//,'');
                 }
                 view.bookList = templates.render('bookList', data);
                 var pageNumber = +state.get('page');
