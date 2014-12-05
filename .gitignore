@@ -3,3 +3,4 @@ config.xml
 .DS_Store
 www/.DS_Store
 .metadata/*
+www/Templates.*
