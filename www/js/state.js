@@ -327,9 +327,12 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		set("connectivity",false);
 	}
 
-
 	document.addEventListener("offline", onOffline, false);
 	document.addEventListener("online", onOnline, false);
+	
+	function bookSaved(slug){
+		return true;
+	}
 
 	return {
 		get : function(key) {
@@ -345,6 +348,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		isFavorite : isFavorite,
 		favoritesArray : favoritesArray,
 		favoritesURL : favoritesURL,
+		bookSaved : bookSaved,
 		host : 'http://tarheelreader.org',
 		fileURL : fileURL,
 	};

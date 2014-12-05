@@ -259,11 +259,24 @@ define([ "route",
             state.addFavorite(id);
         	var rawSlug = $li.find(":first").attr("href").split("/");
         	var slug = rawSlug[rawSlug.length-2];
-            state.downloadBook(slug);
+        	state.downloadBook(slug);
+        	if(state.bookSaved(slug)){
+        		console.log("Download successful");
+            	$li.removeClass('savedNo').addClass('savedYes');
+        	} else {
+        		console.log("Download unsuccessful");
+        		if($li.hasClass('savedYes')){
+            		$li.removeClass('savedYes').addClass('savedNo');
+        		}
+        		state.deleteBook(slug);
+        	}
         } else if ($li.hasClass('favoriteYes')) {
             $li.removeClass('favoriteYes').addClass('favoriteNo');
             state.removeFavorite(id);
-            state.deleteBook(id);
+        	var rawSlug = $li.find(":first").attr("href").split("/");
+        	var slug = rawSlug[rawSlug.length-2];
+    		state.deleteBook(slug);
+    		$li.removeClass('savedYes').addClass('savedNo');
         }
     });
 
@@ -274,9 +287,6 @@ define([ "route",
             if (ios.cancelNav(ev)) {
                 // avoid ios double click bug
                 return false;
-            }
-            if($('.active-page').hasClass('chooseFavorites')){
-            	state.getDownload();
             }
             $('.active-page').toggleClass('chooseFavorites');
             ev.preventDefault();
