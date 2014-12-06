@@ -69,7 +69,7 @@ define([ "route",
             timeout: 30000,
             success: function(data, textStatus, jqXHR) {
                 // setup the image width and height for the template
-                console.log(JSON.stringify(data));
+                console.log(data);
                 for(var i=0; i<data.books.length; i++) {
                     templates.setImageSizes(data.books[i].cover);
                     data.books[i].rating.icon = data.books[i].rating.icon.replace(/\/theme[^\/]*\//,'');
@@ -91,13 +91,26 @@ define([ "route",
                             '</div>');
                 $newPage.find('img[src="images/placeholder.gif"]').each(function(i, e) {
                     var $img = $(e);
-                    console.log(i, $img.attr('data-src'));
 
                     loadImage($img.attr('data-src'), function(blobUri) {
                         $img.attr('src', blobUri);
                     });
 
                 });
+                
+                for(var i=0; i<data.books.length; i++){
+                	if(state.bookSaved(data.books[i].slug)){
+                		$newPage.find('li[data-id="'+data.books[i].ID+'"]').each(function(i, e) {
+                			var $li = $(e);
+                			$li.addClass("savedYes");
+                		});
+                	} else {
+                		$newPage.find('li[data-id="'+data.books[i].ID+'"]').each(function(i, e) {
+                			var $li = $(e);
+                			$li.addClass("savedNo");
+                		});
+                	}
+                }
                 $def.resolve($newPage, {title: 'Tar Heel Reader | Find', colors: true});
             }
         });
@@ -240,7 +253,11 @@ define([ "route",
             .each(function(i, li) {
                 var $li = $(li),
                     id = $li.attr('data-id');
+        		var rawSlug = $li.find(":first").attr("href").split("/");
+        		var slug = rawSlug[rawSlug.length-2];
                 if (state.isFavorite(id)) {
+                    $li.addClass('favoriteYes');
+                } else if(state.bookSaved(slug)){
                     $li.addClass('favoriteYes');
                 } else {
                     $li.addClass('favoriteNo');
@@ -260,23 +277,27 @@ define([ "route",
         	var rawSlug = $li.find(":first").attr("href").split("/");
         	var slug = rawSlug[rawSlug.length-2];
         	state.downloadBook(slug);
-        	if(state.bookSaved(slug)){
+        	//if(state.bookSaved(slug)){
         		console.log("Download successful");
-            	$li.removeClass('savedNo').addClass('savedYes');
-        	} else {
+        		if($li.hasClass('savedNo')){
+            		$li.removeClass('savedNo').addClass('savedYes');
+        		}
+        	/*} else {
         		console.log("Download unsuccessful");
         		if($li.hasClass('savedYes')){
             		$li.removeClass('savedYes').addClass('savedNo');
         		}
         		state.deleteBook(slug);
-        	}
+        	}*/
         } else if ($li.hasClass('favoriteYes')) {
             $li.removeClass('favoriteYes').addClass('favoriteNo');
             state.removeFavorite(id);
         	var rawSlug = $li.find(":first").attr("href").split("/");
         	var slug = rawSlug[rawSlug.length-2];
     		state.deleteBook(slug);
-    		$li.removeClass('savedYes').addClass('savedNo');
+    		if($li.hasClass('savedYes')){
+            	$li.removeClass('savedYes').addClass('savedNo');
+        	}
         }
     });
 
@@ -290,6 +311,7 @@ define([ "route",
             }
             $('.active-page').toggleClass('chooseFavorites');
             ev.preventDefault();
+            console.log("Clicked favorites icon");
     });
     $(document).on('click', '.favorites-page.chooseFavorites .thr-favorites-icon', function(ev) {
         window.location.href = '/favorites/'; // force a refresh after changing favorites on favorites page

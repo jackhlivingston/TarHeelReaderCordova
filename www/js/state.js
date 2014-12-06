@@ -90,7 +90,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		console.log("Step 1");
 		$.get("https://tarheelreader.org/book-as-json/?slug=" + id, function(data) {
 			console.log("Download: ", data);
-			ajaxData = data;
+			ajaxData = toJSON(data);
 			window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
 			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 		});
@@ -133,24 +133,20 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 				create : true,
 				exclusive : false
 			}, gotFileEntryImages, fail);
-			//(function(i) {
-			//$.get(fileURL + jsonFile, function(data) {
-			//if (data.count <= 1) {
-			var uri = encodeURI("https://tarheelreader.org" + pages[i].url);
-			fileTransfer.download(uri, fileURL + pages[i].url, function(entry) {
-				console.log("download complete: " + entry.fullPath);
-			}, function(error) {
-				console.log("download error source " + error.source);
-				console.log("download error target " + error.target);
-				console.log("upload error code" + error.code);
-			}, false, {
-				headers : {
-					"Authorization" : "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
-				}
-			});
-			//}
-			//});
-			//})(i);
+			(function(i) {
+				var uri = encodeURI("https://tarheelreader.org" + pages[i].url);
+				fileTransfer.download(uri, fileURL + pages[i].url, function(entry) {
+					console.log("download complete: " + entry.fullPath);
+				}, function(error) {
+					console.log("download error source " + error.source);
+					console.log("download error target " + error.target);
+					console.log("upload error code" + error.code);
+				}, false, {
+					headers : {
+						"Authorization" : "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+					}
+				});
+			})(i);
 		}
 	}
 
@@ -163,17 +159,6 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		fileEntry.createWriter(gotFileWriterImage, fail);
 	}
 
-	function fileRead(file) {
-		var $def = $.Deferred();
-		var reader = new FileReader();
-		reader.onloadend = function(evt) {
-			var result = evt.target.result;
-			$def.resolve(result);
-		};
-		reader.readAsText(file);
-		return $def;
-	}
-
 	function gotFileWriterJSON(writer) {
 		console.log('gotFileWriter JSON');
 		console.log('Step 2: writing to file');
@@ -183,6 +168,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	function gotFileWriterImage(writer) {
 		$.get(writer.localURL, function(data) {
 			console.log("Writer Data: ", data);
+			data = toJSON(data);
 			var count;
 			if (data == null || data.count == null) {
 				count = 0;
@@ -195,30 +181,26 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		});
 	}
 
-	function saveImage() {
-
-	}
-
 	function fail(error) {
 		console.log('fail: ' + error.code);
 	}
 
-	var dataID = null;
+	var dataSlug = null;
 	function deleteBook(id) {
 		console.log("Deleting Book: ", id);
-		dataID = id;
-		if (dataID != null) {
+		dataSlug = id;
+		if (dataSlug != null) {
 			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFSForDeletion, fail);
 		}
 	}
 
 	function gotFSForDeletion(fileSystem) {
 		console.log('gotFS');
-		var fileJSON = "/json/" + dataID + ".json";
+		var fileJSON = "/json/" + dataSlug + ".json";
 		console.log("File JSON: " + fileURL + fileJSON);
 		$.get(fileURL + fileJSON, function(data) {
 			console.log(data);
-			data = JSON.parse(data);
+			data = toJSON(data);
 			var pages = data.pages;
 			for (var i = 0; i < pages.length; i++) {
 				(function(i) {
@@ -246,7 +228,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 					});
 				})(i);
 			}
-			fileSystem.root.getFile("tarheelreaderapp/json/" + dataID + ".json", {
+			fileSystem.root.getFile("tarheelreaderapp/json/" + dataSlug + ".json", {
 				create : true,
 				exclusive : false
 			}, gotFileEntryForDeletion, fail);
@@ -266,6 +248,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	function gotFileWriterDeleteImage(writer) {
 		$.get(writer.localURL, function(data) {
 			console.log("Writer Data before delete: ", data);
+			data = toJSON(data);
 			var count = data.count;
 			count--;
 			writer.write('{"count" : ' + count + '}');
@@ -316,22 +299,58 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	stateUpdate(window.location.href);
 
 	var networkState = navigator.connection.type !== Connection.NONE;
-	//set("connectivity", networkState);
-	set("connectivity",false);
+	set("connectivity", networkState);
+	//set("connectivity",false);
 	function onOffline() {
 		set("connectivity", false);
 	}
 
 	function onOnline() {
-		//set("connectivity", true);
-		set("connectivity",false);
+		set("connectivity", true);
+		//set("connectivity",false);
 	}
+
 
 	document.addEventListener("offline", onOffline, false);
 	document.addEventListener("online", onOnline, false);
-	
-	function bookSaved(slug){
-		return true;
+
+	function bookSaved(slug) {
+		var returnVal = true;
+		var http = new XMLHttpRequest();
+		http.open('HEAD', fileURL + "/json/" + slug + ".json", false);
+		http.send();
+		if (http.status != 404) {
+			$.get(fileURL + "/json/" + slug + ".json", function(data) {
+				console.log("CHECKING DATA: ", data);
+				var data = toJSON(data);
+				for (var i = 0; i < data.pages.length; i++) {
+					var imageURL = data.pages[i].url;
+					console.log(i, imageURL);
+					var http2 = new XMLHttpRequest();
+					http2.open('HEAD', fileURL + imageURL, false);
+					http2.send();
+					console.log(i, http2.status);
+					if (http2.status == 404) {
+						returnVal = false;
+					}
+				}
+			});
+		} else {
+			returnVal = false;
+		}
+		return returnVal;
+	}
+
+	function toJSON(data) {
+		var newVal;
+		if ( typeof data === "string") {
+			console.log("Data is String");
+			newVal = JSON.parse(data);
+		} else {
+			console.log("Data is not String");
+			newVal = data;
+		}
+		return newVal;
 	}
 
 	return {

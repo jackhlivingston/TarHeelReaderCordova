@@ -613,11 +613,24 @@ img.favoriteYes, img.favoriteNo {
   left: 0;
 }
 
+img.savedYes {
+  position: absolute;
+  display: none;
+  width: 10%;
+  height: 10%;
+  bottom: 15%;
+  right: 5%;
+}
+
 .chooseFavorites li.favoriteYes img.favoriteYes {
   display: block !important;
 }
 
 .chooseFavorites li.favoriteNo img.favoriteNo {
+  display: block !important;
+}
+
+li.savedYes img.savedYes {
   display: block !important;
 }
 
