@@ -19,5 +19,5 @@ define([ "route",
         	//templates.render("login",{"logged_in":false});
         }
         
-	    route.add('render', /^\/login\/(\?.*)?$/, loginRender);
+	    //route.add('render', /^\/login\/(\?.*)?$/, loginRender);
 });

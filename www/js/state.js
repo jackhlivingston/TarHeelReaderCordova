@@ -316,15 +316,15 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	stateUpdate(window.location.href);
 
 	var networkState = navigator.connection.type !== Connection.NONE;
-	//set("connectivity", networkState);
-	set("connectivity",false);
+	set("connectivity", networkState);
+	//set("connectivity",false);
 	function onOffline() {
 		set("connectivity", false);
 	}
 
 	function onOnline() {
-		//set("connectivity", true);
-		set("connectivity",false);
+		set("connectivity", true);
+		//set("connectivity",false);
 	}
 
 	document.addEventListener("offline", onOffline, false);
