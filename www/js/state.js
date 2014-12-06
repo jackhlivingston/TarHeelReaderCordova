@@ -170,7 +170,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 			console.log("Writer Data: ", data);
 			data = toJSON(data);
 			var count;
-			if (data == null || data.count == null) {
+			if (data == null || data.count == null || data == "" || data == " ") {
 				count = 0;
 			} else {
 				count = data.count;
