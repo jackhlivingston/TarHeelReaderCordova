@@ -182,7 +182,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	}
 
 	function fail(error) {
-		console.log('fail: ' + error.code);
+		console.log('fail: ' + error);
 	}
 
 	var dataSlug = null;
@@ -345,7 +345,12 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		var newVal;
 		if ( typeof data === "string") {
 			console.log("Data is String");
-			newVal = JSON.parse(data);
+			if (!data){
+				newVal = undefined;
+			}
+			else{
+				newVal = JSON.parse(data);
+			}
 		} else {
 			console.log("Data is not String");
 			newVal = data;
