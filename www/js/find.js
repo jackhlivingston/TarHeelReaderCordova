@@ -99,6 +99,11 @@ define([ "route",
                 });
                 
                 for(var i=0; i<data.books.length; i++){
+                	/*
+                	 * For each book check if it is saved by using the slug as a reference.
+                	 * If it is saved, addClass savedYes, which works much like favoriteYes. Again,
+                	 * like favoriteYes, if it is not true addClass savedNo.
+                	 */
                 	if(state.bookSaved(data.books[i].slug)){
                 		$newPage.find('li[data-id="'+data.books[i].ID+'"]').each(function(i, e) {
                 			var $li = $(e);
@@ -258,6 +263,11 @@ define([ "route",
                 if (state.isFavorite(id)) {
                     $li.addClass('favoriteYes');
                 } else if(state.bookSaved(slug)){
+                	/*
+                	 * As per GB's idea, books are saved when they are favorited.
+                	 * So when the page is rendered, if a book is saved it is considered
+                	 * favorited.
+                	 */
                     $li.addClass('favoriteYes');
                 } else {
                     $li.addClass('favoriteNo');
@@ -274,24 +284,24 @@ define([ "route",
         if ($li.hasClass('favoriteNo')) {
             $li.removeClass('favoriteNo').addClass('favoriteYes');
             state.addFavorite(id);
+            /*
+             * Download the book by finding its slug and passing it
+             * as a variable.  Then add the savedYes class.
+             */
         	var rawSlug = $li.find(":first").attr("href").split("/");
         	var slug = rawSlug[rawSlug.length-2];
         	state.downloadBook(slug);
-        	//if(state.bookSaved(slug)){
-        		console.log("Download successful");
-        		if($li.hasClass('savedNo')){
-            		$li.removeClass('savedNo').addClass('savedYes');
-        		}
-        	/*} else {
-        		console.log("Download unsuccessful");
-        		if($li.hasClass('savedYes')){
-            		$li.removeClass('savedYes').addClass('savedNo');
-        		}
-        		state.deleteBook(slug);
-        	}*/
+        	console.log("Download successful");
+        	if($li.hasClass('savedNo')){
+            	$li.removeClass('savedNo').addClass('savedYes');
+        	}
         } else if ($li.hasClass('favoriteYes')) {
             $li.removeClass('favoriteYes').addClass('favoriteNo');
             state.removeFavorite(id);
+            /*
+             * Delete the book by finding its slug and passing it
+             * as a variable.  Then delete the savedYes class.
+             */
         	var rawSlug = $li.find(":first").attr("href").split("/");
         	var slug = rawSlug[rawSlug.length-2];
     		state.deleteBook(slug);
