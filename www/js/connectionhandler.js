@@ -68,6 +68,15 @@ define(["state"], function(state) {
 	}
 	
 	function findBooks(request){
+		console.log(JSON.stringify(request));
+		var params = {};
+		var splitURL = request.url.split("?");
+		if (splitURL.length == 2){
+			splitURL[1].split("&").forEach(function(e){
+				var keyValue = e.split("=");
+				params[keyValue[0]] = keyValue[1];
+			});
+		}
 		function fail(){
 			console.log("there was an error find books");
 		}
@@ -110,19 +119,69 @@ define(["state"], function(state) {
 			console.log("got the file: ", JSON.stringify(file));
 	        reader.onloadend = function(evt) {
 	        	var book = JSON.parse(evt.target.result);
-	        	book.cover = book.pages[0];
-	        	book.rating = {
-	                "icon": "images/"+book.rating_value+"stars_t.png",
-	                "img": "images/"+book.rating_value+"stars.png",
-	                "text": book.rating_value+" stars"
-	        	};
-	        	book.pages = book.pages.length;
-		    	books.push(book);
+	        	if (searchBook(book,params)){
+		        	book.cover = book.pages[0];
+		        	book.rating = {
+		                "icon": "images/"+book.rating_value+"stars_t.png",
+		                "img": "images/"+book.rating_value+"stars.png",
+		                "text": book.rating_value+" stars"
+		        	};
+		        	book.pages = book.pages.length;
+			    	books.push(book);
+			   	}
 				$def.resolve();
 	        };
 	        reader.readAsText(file);
 	        return $def;
 		}
+	}
+	
+	function searchBook(book,searchParams){
+		console.log("searching book: ",book,"for params: ",searchParams);
+		if (searchParams.audience && searchParams.audience!=book.audience){
+			return false;
+		}
+		if (searchParams.category){
+			var contains = false;
+			for (var i = 0; i<book.categories.length;i++){
+				if (searchParams.category == book.categories[i]){
+					contains = true;
+					break;
+				}
+			}
+			if (!contains){
+				return false;
+			}
+		}
+		if (searchParams.language && searchParams.language!=book.language){
+			return false;
+		}
+		if (searchParams.reviewed && searchParams.reviewed == "R" && !book.reviewed){
+			return false;
+		}
+		if (searchParams.search){
+			var terms = searchParams.search.split("+");
+			book.tags.forEach(function(e){
+				for (var i=0;i<terms.length;i++){
+					if (e.search(new RegExp(terms[i],'i'))!=-1){
+						terms[i] = '';
+					}
+				}
+			});
+			book.pages.forEach(function(e){
+				for (var i=0;i<terms.length;i++){
+					if (e.text.search(new RegExp(terms[i],'i'))!=-1){
+						terms[i] = '';
+					}
+				}
+			});
+			for (var i=0;i<terms.length;i++){
+				if (terms[i]){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	return {
