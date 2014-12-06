@@ -247,7 +247,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 				(function(i) {
 					var imagePath = pages[i].url.split(".")[0] + ".json";
 					$.get(fileURL + imagePath, function(data2) {
-						data2 = JSON.parse(data2);
+						data2 = toJSON(data2);
 						console.log("Inside Function: " + i + ": Data 2: " + data2);
 						if (data2.count <= 1) {
 							/*
