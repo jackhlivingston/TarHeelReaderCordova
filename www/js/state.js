@@ -87,6 +87,11 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	var ajaxData;
 	var fileURL = "cdvfile://localhost/persistent/tarheelreaderapp";
 	function downloadBook(id) {
+		/*
+		 * String 'id' is passed from find.js when a book is favorited.
+		 * id is the slug of the book.  We use this slug below to get the books JSON
+		 * and then call the gotFS method.
+		 */
 		console.log("Step 1");
 		$.get("https://tarheelreader.org/book-as-json/?slug=" + id, function(data) {
 			console.log("Download: ", data);
@@ -97,6 +102,14 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	}
 
 	function gotFS(fileSystem) {
+		/*
+		 * Below we use the File Cordova Plugin to create two directories 
+		 * (if they don't exist) and a file.  The directories created are the
+		 * tarheelreaderapp and tarheelreaderapp/json directories.  We create these
+		 * in order to create the JSON that stores the information about the downloaded
+		 * book because you cannot create a File using the Cordova plugin if the
+		 * parent directory doesn't exist.
+		 */
 		console.log('gotFS');
 		console.log("AjaxData ID: " + ajaxData.ID);
 		fileSystem.root.getDirectory("tarheelreaderapp", {
@@ -114,6 +127,12 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		var pages = ajaxData.pages;
 
 		for (var i = 0; i < pages.length; i++) {
+			/*
+			 * We propogate through each page in order to store images and image json
+			 * objects.  First we create directories (for the same reasons as above), then
+			 * we create a JSON file used to keep track of image use count and finally 
+			 * we transfer images using fileTransfer.
+			 */
 			var jsonFile = pages[i].url.split(".")[0] + ".json";
 			var fileTransfer = new FileTransfer();
 			urlArray = jsonFile.split("/");
@@ -160,12 +179,20 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	}
 
 	function gotFileWriterJSON(writer) {
+		/*
+		 * Write the JSON data for the entire book to JSON directory.
+		 */
 		console.log('gotFileWriter JSON');
 		console.log('Step 2: writing to file');
 		writer.write(JSON.stringify(ajaxData));
 	}
 
 	function gotFileWriterImage(writer) {
+		/*
+		 * Write the count of image use to JSON file in directory with referenced image.
+		 * If the JSON file is empty because the image has not been used, it sets the
+		 * count at 1.  Otherwise it adds to the existing count.
+		 */
 		$.get(writer.localURL, function(data) {
 			console.log("Writer Data: ", data);
 			data = toJSON(data);
@@ -187,6 +214,11 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 
 	var dataSlug = null;
 	function deleteBook(id) {
+		/*
+		 * Delete is called from Find and passes a books slug.
+		 * This slug is able to reference a JSON file in
+		 * tarheelreader/json/ and deletes recursively from there.
+		 */
 		console.log("Deleting Book: ", id);
 		dataSlug = id;
 		if (dataSlug != null) {
@@ -195,6 +227,9 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	}
 
 	function gotFSForDeletion(fileSystem) {
+		/*
+		 * Uses an ajax call to get the book that is to be downloaded.
+		 */
 		console.log('gotFS');
 		var fileJSON = "/json/" + dataSlug + ".json";
 		console.log("File JSON: " + fileURL + fileJSON);
@@ -203,12 +238,22 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 			data = toJSON(data);
 			var pages = data.pages;
 			for (var i = 0; i < pages.length; i++) {
+				/*
+				 * Using the JSON object we can iterate through each page
+				 * and find the count of the books use.  This will inform us on whether
+				 * it is to be deleted or not.  We use the (function(i){...})(i); to
+				 * handle asynchronous irregularities that arise from the for loop and ajax.
+				 */
 				(function(i) {
 					var imagePath = pages[i].url.split(".")[0] + ".json";
 					$.get(fileURL + imagePath, function(data2) {
 						data2 = JSON.parse(data2);
 						console.log("Inside Function: " + i + ": Data 2: " + data2);
 						if (data2.count <= 1) {
+							/*
+							 * If this image is used 1 or less times, the image and the
+							 * json managing its count is to be deleted.
+							 */
 							console.log("Deleting image:  tarheelreaderapp" + pages[i].url);
 							fileSystem.root.getFile("tarheelreaderapp" + pages[i].url, {
 								create : true,
@@ -220,6 +265,10 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 								exclusive : false
 							}, gotFileEntryForDeletion, fail);
 						} else {
+							/*
+							 * If the image is used more than 1 times the JSON handling its count
+							 * is subtracted by 1.
+							 */
 							fileSystem.root.getFile("tarheelreaderapp" + imagePath, {
 								create : true,
 								exclusive : false
@@ -228,6 +277,10 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 					});
 				})(i);
 			}
+			/*
+			 * After deleting images or subtracting from the count, JSON managing the book
+			 * is deleted.
+			 */
 			fileSystem.root.getFile("tarheelreaderapp/json/" + dataSlug + ".json", {
 				create : true,
 				exclusive : false
@@ -246,6 +299,10 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	}
 
 	function gotFileWriterDeleteImage(writer) {
+		/*
+		 * Write the count of image use to JSON file in directory with referenced image.
+		 * Calls the JSON count that already exists and subtracts the count from that.
+		 */
 		$.get(writer.localURL, function(data) {
 			console.log("Writer Data before delete: ", data);
 			data = toJSON(data);
@@ -316,26 +373,17 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	document.addEventListener("online", onOnline, false);
 
 	function bookSaved(slug) {
+		/*
+		 * This function is called by find.js and serves as a way to check if a
+		 * book is downloaded by looking it up by its slug.  By doing so it allows 
+		 * the find page to append the save icon while Find is being rendered.  By
+		 * doing so it helps prevent downloading the same image more than once.
+		 */
 		var returnVal = true;
 		var http = new XMLHttpRequest();
 		http.open('HEAD', fileURL + "/json/" + slug + ".json", false);
 		http.send();
 		if (http.status != 404) {
-			/*$.get(fileURL + "/json/" + slug + ".json", function(data) {
-				console.log("CHECKING DATA: ", data);
-				var data = toJSON(data);
-				for (var i = 0; i < data.pages.length; i++) {
-					var imageURL = data.pages[i].url;
-					console.log(i, imageURL);
-					var http2 = new XMLHttpRequest();
-					http2.open('HEAD', fileURL + imageURL, false);
-					http2.send();
-					console.log(i, http2.status);
-					if (http2.status == 404) {
-						returnVal = false;
-					}
-				}
-			});*/
 			returnVal = true;
 		} else {
 			returnVal = false;
@@ -344,6 +392,14 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	}
 
 	function toJSON(data) {
+		/*
+		 * This function resolves an ios/android issue.
+		 * On ios, when we call ajax locally it will return our json
+		 * files contents as a json object.  On android it will return them
+		 * as a string.  So if the data variable passed into this function
+		 * is of type string, it will parse it for JSON (unless it is empty
+		 * 	and then it will be undefined).
+		 */
 		var newVal;
 		if ( typeof data === "string") {
 			console.log("Data is String");
