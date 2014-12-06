@@ -411,7 +411,12 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 			}
 		} else {
 			console.log("Data is not String");
-			newVal = data;
+			if (!data){
+				newVal = undefined;
+			}
+			else{
+				newVal = data;
+			}
 		}
 		return newVal;
 	}
