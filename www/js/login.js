@@ -16,8 +16,9 @@ define([ "route",
         
         function loginRender(){
         	console.log("login rendering");
-        	//templates.render("login",{"logged_in":false});
+        	//return templates.render("login",{"logged_in":false});
+        	return false;
         }
         
-	    //route.add('render', /^\/login\/(\?.*)?$/, loginRender);
+	    route.add('render', /^\/login\/(\?.*)?$/, loginRender);
 });

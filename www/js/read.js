@@ -272,13 +272,15 @@ define(["route",
             book.rating_count += 1;
             book.rating_total += rating;
             book.rating_value = Math.round(2.0*book.rating_total / book.rating_count) * 0.5;
-            $.ajax({
+            /*	TODO there are errors with this that we can't figure out so for now we will not count peoples votes.
+
+             $.ajax({
                 url: '/rateajax/',
                 data: {
                     id: book.ID,
                     rating: rating
                 }
-            });
+            });*/
         }
     }
 

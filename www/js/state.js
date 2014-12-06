@@ -303,10 +303,12 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	//set("connectivity",false);
 	function onOffline() {
 		set("connectivity", false);
+		//controller.stateChange();
 	}
 
 	function onOnline() {
 		set("connectivity", true);
+		//controller.stateChange();
 		//set("connectivity",false);
 	}
 
@@ -375,7 +377,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		favoritesArray : favoritesArray,
 		favoritesURL : favoritesURL,
 		bookSaved : bookSaved,
-		host : 'http://tarheelreader.org',
+		host : 'http://gbserver3.cs.unc.edu',
 		fileURL : fileURL,
 	};
 });

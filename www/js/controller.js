@@ -78,7 +78,10 @@ define([  "route",
         });
     }
 
+	var URL = "/";
+
     function renderUrl(url, context) {
+    	URL = url;
         console.log('renderUrl', url);
         var $pageReady = $.Deferred();
 
@@ -111,6 +114,19 @@ define([  "route",
                         		images[i].src = images[i].src.replace(/theme[^\/]*\//,'').replace("file:///",'');
                         	}
                         }
+                        forms = $newPage.find("form");
+                        for (var i = 0; i<forms.length ; i++){
+                        	if (forms[i].action){
+                        		forms[i].action = state.host + forms[i].action.replace("file://","");
+                        	}
+                        }
+                        // links = $newPage.find("a");
+                        // for (var i = 0; i<links.length ; i++){
+                        	// console.log(links[i],links[i].href.search(/\/.*/));
+                        	// if (links[i].href && 0 == links[i].href.search(/\/.*/)){
+                        		// links[i].href = state.host + links[i].href;
+                        	// }
+                        // }
                         $oldPage.replaceWith($newPage);
                         state.update(''); // pick up any cookie updates from the host
                         $render.resolve($newPage);
@@ -161,6 +177,24 @@ define([  "route",
         $(window).on('statechange', stateChange);
 
     }); // end on dom ready
+
+	function connectivityChange(){
+		var $def;
+		var viewingNav = $('.navigationMenu[aria-hidden="false"]').length>0;
+		if (URL.search('/find/')!=-1){
+			$def = renderUrl(URL,null);
+			if (viewingNav){
+				$def.then(function(){$(".thr-well-icon").click();});
+			}
+		}
+		else{
+			//renderUrl('/find/',null);
+		}
+
+	}
+
+	document.addEventListener("offline", connectivityChange, false);
+	document.addEventListener("online", connectivityChange, false);
 
     return {
         stateChange: stateChange,
