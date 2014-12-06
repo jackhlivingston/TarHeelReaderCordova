@@ -320,7 +320,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		http.open('HEAD', fileURL + "/json/" + slug + ".json", false);
 		http.send();
 		if (http.status != 404) {
-			$.get(fileURL + "/json/" + slug + ".json", function(data) {
+			/*$.get(fileURL + "/json/" + slug + ".json", function(data) {
 				console.log("CHECKING DATA: ", data);
 				var data = toJSON(data);
 				for (var i = 0; i < data.pages.length; i++) {
@@ -334,7 +334,8 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 						returnVal = false;
 					}
 				}
-			});
+			});*/
+			returnVal = true;
 		} else {
 			returnVal = false;
 		}
