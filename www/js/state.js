@@ -310,7 +310,6 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		//set("connectivity",false);
 	}
 
-
 	document.addEventListener("offline", onOffline, false);
 	document.addEventListener("online", onOnline, false);
 
@@ -353,6 +352,8 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 		}
 		return newVal;
 	}
+       
+       
 
 	return {
 		get : function(key) {
