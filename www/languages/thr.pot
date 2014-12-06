@@ -75,7 +75,7 @@ msgstr ""
 msgid "Average Rating"
 msgstr ""
 
-# collections:1, navigation:16
+# collections:1, navigation:17
 msgid "Collections"
 msgstr ""
 
@@ -148,7 +148,7 @@ msgstr ""
 msgid "Find a book"
 msgstr ""
 
-# frontPage:16, navigation:24
+# frontPage:16, navigation:27
 msgid "Write a book"
 msgstr ""
 
@@ -439,23 +439,23 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-# navigation:28
+# navigation:31
 msgid "Log in"
 msgstr ""
 
-# navigation:32
+# navigation:35
 msgid "Help"
 msgstr ""
 
-# navigation:36
+# navigation:40
 msgid "Your books"
 msgstr ""
 
-# navigation:40
+# navigation:44
 msgid "Announcements"
 msgstr ""
 
-# navigation:44
+# navigation:48
 msgid "Photo credits"
 msgstr ""
 
@@ -1015,7 +1015,7 @@ msgstr ""
 msgid "Your collections are listed below. Click on the Favorites button to create a new collection. Click on a collection to expose a menu that will allow you to modify it."
 msgstr ""
 
-# yourbooks:71, navigation:20
+# yourbooks:71, navigation:22
 msgid "Favorites"
 msgstr ""
 

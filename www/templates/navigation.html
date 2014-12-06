@@ -12,14 +12,17 @@
         <a class="findLink" href="/find/">_(Find a book)</a>
         <img class="disclosure-icon" src="images/disclosure_icon.png" alt=" " />
     </li>
+    {{#online}}
     <li>
         <a class="collectionsLink" href="/collections/">_(Collections)</a>
         <img class="disclosure-icon" src="images/disclosure_icon.png" alt=" " />
     </li>
+    {{/online}}
     <li>
         <a class="favoritesLink" href="/favorites/">_(Favorites)</a>
         <img class="disclosure-icon" src="images/disclosure_icon.png" alt=" " />
     </li>
+    {{#online}}
     <li>
         <a class="writeLink" href="/write/">_(Write a book)</a>
         <img class="disclosure-icon" src="images/disclosure_icon.png" alt=" " />
@@ -32,6 +35,7 @@
         <a class="helpLink" href="/help/" >_(Help)</a>
         <img class="disclosure-icon" src="images/disclosure_icon.png" alt=" " />
     </li>
+    
     <li>
         <a class="yourBooksLink" href="/your-books/">_(Your books)</a>
         <img class="disclosure-icon" src="images/disclosure_icon.png" alt=" " />
@@ -44,5 +48,6 @@
         <a class="photoCreditsLink" href="/photo-credits/">_(Photo credits)</a>
         <img class="disclosure-icon" src="images/disclosure_icon.png" alt=" " />
     </li>
+    {{/online}}
 </ul>
 <!-- End Navigation -->

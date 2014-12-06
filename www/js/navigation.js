@@ -87,8 +87,12 @@ define(["state", "controller", "templates", "ios"], function(state, controller, 
             if($navigation.length === 0) { // nav doesn't exist, load it
                 templates.setLocale().then(function() {
                     //console.log('create nav');
+                    // online variable passes value into template using mustache context.
+                    // if online, true is passed and affects rendering of navigation menu
+                    var online = {"online": state.get("connectivity")};
                     $contentWrap.wrapInner("<div class='hiddenContent' />")
-                                .prepend(templates.render('navigation', null));
+                            .prepend(templates.render('navigation', online));
+
 
                     $(".active-page").find(".navigationMenu").hide();
                     showNav();
