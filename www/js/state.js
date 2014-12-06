@@ -182,7 +182,7 @@ define(["route", "json!../state.json", "jquery.cookie"], function(route, rules) 
 	}
 
 	function fail(error) {
-		console.log('fail: ' + error.code);
+		console.log('fail: ' + error);
 	}
 
 	var dataSlug = null;
