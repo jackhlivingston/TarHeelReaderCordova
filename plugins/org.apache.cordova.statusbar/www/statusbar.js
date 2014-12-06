@@ -95,6 +95,9 @@ var StatusBar = {
 
 };
 
+StatusBar.overlaysWebView(false);
+StatusBar.backgroundColorByHexString("#286da3");
+
 // prime it
 exec(function (res) {
     if (typeof res == 'object') {
